@@ -6,7 +6,7 @@ import {HttpService} from "@nestjs/axios";
 
 import {Station} from "../models/station.model";
 import {Connections} from "../models/connections.model";
-import {Connection} from "mongoose";
+import {Connection} from "../models/connection.model";
 
 @Controller('connections')
 export class ConnectionsController {
@@ -19,19 +19,52 @@ export class ConnectionsController {
         const departureStations: string[] = await this.getDepartureStations(req.requests);
         const connections: Connection[] = [];
         departureStations.forEach(station => {
-            this.getConnection(station, req.targetStation).then(res => {
-                connections.push((res as Connections).connections[0]);
+            this.getConnection(station, req.targetStation, req.desiredTime).then(res => {
+                connections.push(this.getConnectionClosestToDate(res as Connections, req.desiredTime));
                 if (connections.length === departureStations.length) {
                     response.send(connections);
                 }
             })
         })
-
     }
 
-    private getConnection(departureStation: string, targetStation: string) {
+
+    private getConnectionClosestToDate(connections: Connections, date: string): Connection {
+        let closestConnection: Connection = null;
+        const desiredDate = new Date(date);
+        connections.connections.forEach(connection => {
+                const connectionDate = new Date(connection.to.arrival);
+                if (!closestConnection) closestConnection = connection;
+                else {
+                    let closestConnectionDate = new Date(closestConnection.to.arrival);
+                    const oldDifference = (closestConnectionDate.getTime() < desiredDate.getTime())
+                        ? desiredDate.getTime() - closestConnectionDate.getTime()
+                        : closestConnectionDate.getTime() - desiredDate.getTime();
+                    const newDifference = (connectionDate.getTime() < desiredDate.getTime())
+                        ? desiredDate.getTime() - connectionDate.getTime()
+                        : connectionDate.getTime() - desiredDate.getTime();
+                    if (newDifference < oldDifference) closestConnection = connection;
+                }
+        })
+        return closestConnection;
+    }
+
+    private splitDateAndTime(dateTime: string) {
+        const date = new Date(dateTime);
+        const yearMonthDay = dateTime.substring(0, 10);
+
+        return {
+            date: yearMonthDay,
+            time: `${date.getHours() + 1 < 10 ? '0' + date.getHours() + 1 : date.getHours() + 1}:${date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()}`
+        }
+    }
+
+    private getConnection(departureStation: string, targetStation: string, dateTime: string) {
+        const date: {date: string; time: string;} = this.splitDateAndTime(dateTime);
         return new Promise(resolve => {
-            this.httpService.get(`http://transport.opendata.ch/v1/connections?from=${departureStation}&to=${targetStation}`).forEach(res => {
+            this.httpService.get(
+                `http://transport.opendata.ch/v1/connections?from=${departureStation}&to=${targetStation}&date=${date.date}&time=${date.time}&isArrivalTime=1&limit=16`)
+                .forEach(res => {
                 resolve(res.data);
             })
         });

@@ -1,5 +1,5 @@
 import {Connection} from "./connection.model";
 
 export interface Connections {
-    connections: Connection;
+    connections: Connection[];
 }
