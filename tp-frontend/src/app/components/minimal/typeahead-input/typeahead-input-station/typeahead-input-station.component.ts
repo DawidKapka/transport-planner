@@ -7,11 +7,11 @@ import {ConnectionsService} from "../../../../services/connections.service";
   styleUrls: ['./typeahead-input-station.component.scss'],
 })
 export class TypeaheadInputStationComponent implements OnInit {
-  public currentValue: string = '';
   public typeaheadSuggestions: {name: string; id: string}[] = [];
   public typeaheadOpen: boolean = true;
 
-  @Output('value-change') valueChange = new EventEmitter<string>();
+  @Input('value') currentValue: string = '';
+  @Output('valueChange') valueChange = new EventEmitter<string>();
 
   @Input() placeholder: string = '';
 

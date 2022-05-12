@@ -1,0 +1,6 @@
+<div class="participant">
+  <app-typeahead-input-text placeholder="Name" class="participant__name" (valueChange)="emitNameChange($event)" [(value)]="participantName"></app-typeahead-input-text>
+  <app-typeahead-input-station placeholder="Departure Station" [(value)]="stationName" (valueChange)="emitStationNameChange()"></app-typeahead-input-station>
+  <app-typeahead-input-button class="participant__delete" text="-" (on-click)="delete()" *ngIf="isDeletable"></app-typeahead-input-button>
+</div>
+

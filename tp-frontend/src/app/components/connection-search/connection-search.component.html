@@ -17,10 +17,13 @@
           <p class="participants__label">Participants</p>
           <app-typeahead-input-button text="+" (on-click)="incrementParticipants()"></app-typeahead-input-button>
           <div class="participants__list">
-            <div class="participants__participant" *ngFor="let x of ' '.repeat(participantsAmount).split(''), let i = index">
-              <app-typeahead-input-text placeholder="Name" class="participants__participant__name"></app-typeahead-input-text>
-              <app-typeahead-input-station placeholder="Departure Station"></app-typeahead-input-station>
-            </div>
+            <app-participant
+              *ngFor="let participant of participants"
+              [participant-id]="participant.id"
+              [deletable]="participants.length > 1"
+              (delete)="deleteParticipant($event)"
+              [(name)]="participant.name"
+              [(station-name)]="participant.departureStation"></app-participant>
           </div>
         </div>
       </div>

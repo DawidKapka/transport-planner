@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-typeahead-input-text',
@@ -6,13 +6,17 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./typeahead-input-text.component.scss']
 })
 export class TypeaheadInputTextComponent implements OnInit {
-  public currentValue: string = '';
-
   @Input() placeholder: string = '';
+  @Input('value') currentValue: string = '';
+  @Output('valueChange') valueChange: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  emitValueChange() {
+    this.valueChange.emit(this.currentValue);
   }
 
 }
