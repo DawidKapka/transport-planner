@@ -1,0 +1,36 @@
+@import 'src/css/colors.scss';
+
+.input-typeahead {
+  height: 32px;
+  width: 240px;
+  font-size: 16px;
+  border: 2px solid $color-darkblue-100;
+  border-radius: 4px;
+  outline: none;
+  padding-left: 6px;
+}
+.input-with-suggestions {
+  border-radius: 4px 4px 0 0;
+}
+
+.typeahead-suggestions {
+  position: absolute;
+  background-color: $color-white-100;
+  width: 248px;
+  border-radius: 0 0 4px 4px;
+  border: 2px solid $color-darkblue-100;
+  border-top: none;
+}
+
+.typeahead-suggestion {
+  padding: 6px;
+
+  &__paragraph {
+    margin: 6px;
+  }
+
+  &:hover {
+    background-color: $color-black-10;
+    cursor: pointer;
+  }
+}

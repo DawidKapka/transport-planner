@@ -1,0 +1,19 @@
+{
+  "name": "transport-planner",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start:fe": "cd tp-frontend && npm run start",
+    "start:be": "cd tp-backend && npm run start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DawidKapka/transport-planner.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DawidKapka/transport-planner/issues"
+  },
+  "homepage": "https://github.com/DawidKapka/transport-planner#readme"
+}

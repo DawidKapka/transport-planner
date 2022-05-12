@@ -7,6 +7,7 @@ import {DbService} from "./services/db.service";
 import {UserController} from "./controllers/user.controller";
 import {ConnectionsController} from "./controllers/connections.controller";
 import {Module} from "@nestjs/common";
+import {StationsController} from "./controllers/stations.controller";
 
 const credentials = require('../credentials.json');
 
@@ -22,7 +23,7 @@ const credentials = require('../credentials.json');
       ], 'transport-planner'),
       HttpModule
   ],
-  controllers: [AppController, UserController, ConnectionsController],
+  controllers: [AppController, UserController, ConnectionsController, StationsController],
   providers: [AppService, DbService],
 })
 export class AppModule {}

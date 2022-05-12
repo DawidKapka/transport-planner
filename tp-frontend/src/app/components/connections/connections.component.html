@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="form-container">
+    <div class="form-wrapper">
+      <div class="form-container__destination">
+        <p class="form-container__label">Destination</p>
+        <app-typeahead-input type="station-search" placeholder="Station"></app-typeahead-input>
+      </div>
+      <div class="form-container__arrival">
+        <p class="form-container__label">Desired Arrival Time</p>
+        <app-typeahead-input type="date-time" placeholder="Date/Time"></app-typeahead-input>
+      </div>
+      <div class="form-container__search">
+        <app-typeahead-input-button text="Search" (on-click)="searchConnections()"></app-typeahead-input-button>
+      </div>
+      <div class="form-container__participants">
+        <div class="participants">
+          <p class="participants__label">Participants</p>
+          <app-typeahead-input-button text="+" (on-click)="incrementParticipants()"></app-typeahead-input-button>
+          <div class="participants__list">
+            <div class="participants__participant" *ngFor="let x of ' '.repeat(participantsAmount).split(''), let i = index">
+              <app-typeahead-input-text placeholder="Name" class="participants__participant__name"></app-typeahead-input-text>
+              <app-typeahead-input-station placeholder="Departure Station"></app-typeahead-input-station>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
