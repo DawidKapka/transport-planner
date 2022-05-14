@@ -1,0 +1,52 @@
+<div class="connections">
+  <div class="connection-box">
+    <div class="participant-title">
+      <p class="participant-title__text">{{participant ? participant.name : ''}}</p>
+    </div>
+    <div class="connection-box__connection">
+      <div class="departure">
+        <div class="departure__info">
+          <p class="departure__info__paragraph">
+            {{connection.connection.from.station.name}}
+          </p>
+          <p class="departure__info__paragraph">
+            {{formatTime(connection.connection.from.departure)}}
+            <span class="departure__delay">{{formatDelay(connection.connection.from.delay)}}</span>
+          </p>
+          <p class="departure__info__paragraph">
+            {{formatPlatform(connection.connection.from.platform)}}
+          </p>
+        </div>
+      </div>
+      <div class="journey">
+        <div class="journey__arrow"></div>
+      </div>
+      <div class="arrival">
+        <div class="arrival__info">
+          <p class="arrival__info__paragraph">
+            {{connection.connection.to.station.name}}
+          </p>
+          <p class="arrival__info__paragraph">
+            {{formatTime(connection.connection.to.arrival)}}
+            <span class="departure__delay">{{formatDelay(connection.connection.to.delay)}}</span>
+          </p>
+          <p class="arrival__info__paragraph">
+            {{formatPlatform(connection.connection.to.platform)}}
+          </p>
+        </div>
+      </div>
+      <div class="time">
+        <div class="time__paragraph">
+          {{formatDuration(connection.connection.duration)}}
+        </div>
+      </div>
+      <div class="service">
+        <div class="service__info">
+          <p class="service__info__paragraph" *ngFor="let product of connection.connection.products">
+            {{product}}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

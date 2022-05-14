@@ -10,8 +10,22 @@ export class TypeaheadInputComponent{
   @Input() type: 'station-search' | 'date-time' | 'button' | 'text' | undefined;
   @Input() placeholder: string = '';
   @Input() text: string = '';
+  @Input('station-value') stationText: string = '';
+  @Input('date-value') dateValue: string = '';
 
   @Output('on-click') click = new EventEmitter();
+  @Output('station-valueChange') stationValueChange: EventEmitter<string> = new EventEmitter<string>();
+  @Output('date-valueChange') dateValueChange: EventEmitter<string> = new EventEmitter<string>();
+
+  emitStationChange(value: string) {
+    this.stationText = value;
+    this.stationValueChange.emit(this.stationText);
+  }
+
+  emitDateChange(value: string) {
+    this.dateValue = value;
+    this.dateValueChange.emit(this.dateValue);
+  }
 
   constructor() {
   }

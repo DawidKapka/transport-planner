@@ -1,12 +1,13 @@
-import {Body, Controller, Get, Post, Res} from "@nestjs/common";
-import {ConnectionRequests} from "../models/connection-requests.model";
-import {ConnectionRequestStation} from "../models/connection-request-station.model";
-import {ConnectionRequestCoordinate} from "../models/connection-request-coordinate.model";
+import {Body, Controller, Post, Res} from "@nestjs/common";
+import {ConnectionRequests} from "../../../shared/models/api-requests/connection-requests.model";
+import {ConnectionRequestStation} from "../../../shared/models/connection/connection-request-station.model";
+import {ConnectionRequestCoordinate} from "../../../shared/models/connection/connection-request-coordinate.model";
 import {HttpService} from "@nestjs/axios";
 
-import {Station} from "../models/station.model";
-import {Connections} from "../models/connections.model";
-import {Connection} from "../models/connection.model";
+import {Station} from "../../../shared/models/station/station.model";
+import {Connections} from "../../../shared/models/connection/connections.model";
+import {Connection} from "../../../shared/models/connection/connection.model";
+import {ConnectionsResponse} from "../../../shared/models/api-responses/connections-response.model";
 
 @Controller('connections')
 export class ConnectionsController {
@@ -16,11 +17,11 @@ export class ConnectionsController {
 
     @Post('find')
     public async findAllConnections(@Body() req: ConnectionRequests, @Res() response) {
-        const departureStations: string[] = await this.getDepartureStations(req.requests);
-        const connections: Connection[] = [];
+        const departureStations: {id: number; station: string}[] = await this.getDepartureStations(req.requests);
+        const connections: ConnectionsResponse[] = [];
         departureStations.forEach(station => {
-            this.getConnection(station, req.targetStation, req.desiredTime).then(res => {
-                connections.push(this.getConnectionClosestToDate(res as Connections, req.desiredTime));
+            this.getConnection(station.station, req.targetStation, req.desiredTime).then(res => {
+                connections.push({participantId: station.id, connection: this.getConnectionClosestToDate(res as Connections, req.desiredTime)});
                 if (connections.length === departureStations.length) {
                     response.send(connections);
                 }
@@ -89,13 +90,13 @@ export class ConnectionsController {
     }
 
     private getDepartureStations(requests) {
-        const stations: string[] = [];
-        return new Promise<string[]>(resolve => {
+        const stations: {id: number, station: string}[] = [];
+        return new Promise<{id: number, station: string}[]>(resolve => {
             requests.forEach((req: ConnectionRequestStation | ConnectionRequestCoordinate, index, array) => {
                 if ((req as any).stationName) {
-                    this.getStationByName((req as ConnectionRequestStation).stationName.replace(' ', ''))
+                    this.getStationByName((req as ConnectionRequestStation).stationName.replace(' ', '%20'))
                         .then(res => {
-                            stations.push((res as Station).id);
+                            stations.push({id: req.participantId, station: (res as Station).id});
                             if (stations.length === requests.length) resolve(stations);
                         });
                 } else {
@@ -103,7 +104,8 @@ export class ConnectionsController {
                         (req as ConnectionRequestCoordinate).x,
                         (req as ConnectionRequestCoordinate).y
                     ).then(res => {
-                        stations.push((res as Station).id);
+                        stations.push({id: req.participantId, station: (res as Station).id
+                        });
                         if (stations.length === requests.length) resolve(stations);
                     });
                 }
