@@ -1,8 +1,8 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Participant} from "../../models/participant.model";
-import {ConnectionRequests} from "../../../../../shared/models/api-requests/connection-requests.model";
+import {ConnectionRequests} from "../../../../../tp-backend/src/shared/models/api-requests/connection-requests.model";
 import {ConnectionsService} from "../../services/connections.service";
-import {ConnectionsResponse} from "../../../../../shared/models/api-responses/connections-response.model";
+import {ConnectionsResponse} from "../../../../../tp-backend/src/shared/models/api-responses/connections-response.model";
 
 @Component({
   selector: 'app-connection-search',

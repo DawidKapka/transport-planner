@@ -16,7 +16,7 @@ import { ParticipantComponent } from './components/minimal/participant/participa
 import { HomeComponent } from './components/home/home.component';
 import { ConnectionsComponent } from './components/connections/connections.component';
 import { ConnectionComponent } from './components/connections/connection/connection.component';
-
+import { ConnectionExpandedComponent } from './components/connections/connection/connection-expanded/connection-expanded.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +29,8 @@ import { ConnectionComponent } from './components/connections/connection/connect
     ParticipantComponent,
     HomeComponent,
     ConnectionsComponent,
-    ConnectionComponent
+    ConnectionComponent,
+    ConnectionExpandedComponent,
   ],
   imports: [
     BrowserModule,

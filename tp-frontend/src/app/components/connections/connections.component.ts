@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ConnectionsResponse} from "../../../../../shared/models/api-responses/connections-response.model";
+import {ConnectionsResponse} from "../../../../../tp-backend/src/shared/models/api-responses/connections-response.model";
 import {Participant} from "../../models/participant.model";
+import {ConnectionsService} from "../../services/connections.service";
 
 @Component({
   selector: 'app-connections',
@@ -13,7 +14,7 @@ export class ConnectionsComponent implements OnInit {
   @Input() participants: Participant[];
   connectionsWithParticipants: {connection: ConnectionsResponse, participant: Participant}[] = [];
 
-  constructor() {
+  constructor(private connectionsService: ConnectionsService) {
   }
 
   ngOnInit(): void {

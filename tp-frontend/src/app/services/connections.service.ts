@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {ConnectionRequests} from "../../../../shared/models/api-requests/connection-requests.model";
-import {ConnectionRequestStation} from "../../../../shared/models/connection/connection-request-station.model";
+import {ConnectionRequests} from "../../../../tp-backend/src/shared/models/api-requests/connection-requests.model";
+import {ConnectionRequestStation} from "../../../../tp-backend/src/shared/models/connection/connection-request-station.model";
 
 @Injectable({
   providedIn: "root"

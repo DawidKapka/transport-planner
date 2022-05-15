@@ -1,5 +1,9 @@
 @import 'src/css/colors.scss';
 
+.connections {
+  width: 100vw;
+}
+
 .connection-box {
   margin: 40px;
   width: calc(100% - 80px);
@@ -84,6 +88,10 @@
 
 .time {
   width: 12%;
+
+  &__paragraph {
+    text-align: center;
+  }
 }
 
 .journey {
@@ -112,5 +120,17 @@
       transform: scale(1.000);
       box-shadow: 2px 2px 4px rgba(173, 173, 173, 0.5);
     }
+  }
+
+  .departure, .arrival {
+    width: 22%;
+  }
+
+  .service, .time {
+    width: 18%;
+  }
+
+  .journey {
+    width: 20%;
   }
 }

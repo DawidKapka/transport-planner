@@ -90,7 +90,13 @@
   .connection-expanded {
 
     &__sections {
-      width: 90%;
+      width: 100%;
+    }
+
+    .section {
+      &__station {
+        width: 60%;
+      }
     }
   }
 }

@@ -1,13 +1,13 @@
 import {Body, Controller, Post, Res} from "@nestjs/common";
-import {ConnectionRequests} from "../../../shared/models/api-requests/connection-requests.model";
-import {ConnectionRequestStation} from "../../../shared/models/connection/connection-request-station.model";
-import {ConnectionRequestCoordinate} from "../../../shared/models/connection/connection-request-coordinate.model";
+import {ConnectionRequests} from "../shared/models/api-requests/connection-requests.model";
+import {ConnectionRequestStation} from "../shared/models/connection/connection-request-station.model";
+import {ConnectionRequestCoordinate} from "../shared/models/connection/connection-request-coordinate.model";
 import {HttpService} from "@nestjs/axios";
 
-import {Station} from "../../../shared/models/station/station.model";
-import {Connections} from "../../../shared/models/connection/connections.model";
-import {Connection} from "../../../shared/models/connection/connection.model";
-import {ConnectionsResponse} from "../../../shared/models/api-responses/connections-response.model";
+import {Station} from "../shared/models/station/station.model";
+import {Connections} from "../shared/models/connection/connections.model";
+import {Connection} from "../shared/models/connection/connection.model";
+import {ConnectionsResponse} from "../shared/models/api-responses/connections-response.model";
 
 @Controller('connections')
 export class ConnectionsController {
@@ -32,20 +32,18 @@ export class ConnectionsController {
 
     private getConnectionClosestToDate(connections: Connections, date: string): Connection {
         let closestConnection: Connection = null;
-        const desiredDate = new Date(date);
+        const desiredDate = Date.parse(date) / 1000;
         connections.connections.forEach(connection => {
-                const connectionDate = new Date(connection.to.arrival);
-                if (!closestConnection) closestConnection = connection;
-                else {
-                    let closestConnectionDate = new Date(closestConnection.to.arrival);
-                    const oldDifference = (closestConnectionDate.getTime() < desiredDate.getTime())
-                        ? desiredDate.getTime() - closestConnectionDate.getTime()
-                        : closestConnectionDate.getTime() - desiredDate.getTime();
-                    const newDifference = (connectionDate.getTime() < desiredDate.getTime())
-                        ? desiredDate.getTime() - connectionDate.getTime()
-                        : connectionDate.getTime() - desiredDate.getTime();
-                    if (newDifference < oldDifference) closestConnection = connection;
-                }
+            const connectionDate = connection.to.arrivalTimestamp;
+            if (!closestConnection) closestConnection = connection;
+            else {
+                let closestConnectionDate = closestConnection.to.arrivalTimestamp;
+                let oldDifference = desiredDate - closestConnectionDate
+                let newDifference = desiredDate - connectionDate;
+                if (newDifference < 0) newDifference = newDifference * -1;
+                if (oldDifference < 0) oldDifference = oldDifference * -1;
+                if (newDifference < oldDifference) closestConnection = connection;
+            }
         })
         return closestConnection;
     }
@@ -53,10 +51,9 @@ export class ConnectionsController {
     private splitDateAndTime(dateTime: string) {
         const date = new Date(dateTime);
         const yearMonthDay = dateTime.substring(0, 10);
-
         return {
             date: yearMonthDay,
-            time: `${date.getHours() + 1 < 10 ? '0' + date.getHours() + 1 : date.getHours() + 1}:${date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()}`
+            time: `${date.getHours() < 10 ? '0' + date.getHours() : date.getHours()}:${date.getMinutes() + 30 < 10 ? '0' + date.getMinutes()  + 30 : date.getMinutes() + 30}`
         }
     }
 
@@ -64,9 +61,16 @@ export class ConnectionsController {
         const date: {date: string; time: string;} = this.splitDateAndTime(dateTime);
         return new Promise(resolve => {
             this.httpService.get(
-                `http://transport.opendata.ch/v1/connections?from=${departureStation}&to=${targetStation}&date=${date.date}&time=${date.time}&isArrivalTime=1&limit=16`)
+                `http://transport.opendata.ch/v1/connections?from=${departureStation}&to=${targetStation}&date=${date.date}&time=${date.time}&isArrivalTime=1&limit=16&page=3`)
                 .forEach(res => {
-                resolve(res.data);
+                    this.httpService.get(
+                        `http://transport.opendata.ch/v1/connections?from=${departureStation}&to=${targetStation}&date=${date.date}&time=${date.time}&isArrivalTime=1&limit=16&page=0`)
+                        .forEach(res2 => {
+                            const connections: Connections = {connections: []};
+                            (res.data as Connections).connections.forEach(connection => connections.connections.push(connection));
+                            (res2.data as Connections).connections.forEach(connection => connections.connections.push(connection));
+                            resolve(connections);
+                        })
             })
         });
     }

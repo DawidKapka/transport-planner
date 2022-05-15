@@ -11,3 +11,10 @@
     transform: translateX(16px);
   }
 }
+
+@media only screen and (max-width: 700px) {
+  .participant {
+    display: block;
+    margin-bottom: 40px;
+  }
+}
