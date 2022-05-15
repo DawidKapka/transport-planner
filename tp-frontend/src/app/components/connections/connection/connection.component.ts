@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Participant} from "../../../models/participant.model";
-import {ConnectionsResponse} from "../../../../../../shared/models/api-responses/connections-response.model";
+import {ConnectionsResponse} from "../../../../../../tp-backend/src/shared/models/api-responses/connections-response.model";
 
 @Component({
   selector: 'app-connection',
@@ -11,6 +11,7 @@ export class ConnectionComponent implements OnInit {
 
   @Input() participant: Participant = null;
   @Input() connection: ConnectionsResponse = null;
+  isOpened: boolean = false;
 
   constructor() { }
 
@@ -36,5 +37,9 @@ export class ConnectionComponent implements OnInit {
     time += hours !== '00' ? hours + 'h ' : '';
     time += minutes !== '00' ? minutes + 'min ' : '';
     return time;
+  }
+
+  openConnection() {
+    this.isOpened = !this.isOpened;
   }
 }

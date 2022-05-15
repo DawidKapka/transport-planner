@@ -1,9 +1,9 @@
 <div class="connections">
   <div class="connection-box">
-    <div class="participant-title">
+    <div class="participant-title" (click)="openConnection()">
       <p class="participant-title__text">{{participant ? participant.name : ''}}</p>
     </div>
-    <div class="connection-box__connection">
+    <div class="connection-box__connection" (click)="openConnection()">
       <div class="departure">
         <div class="departure__info">
           <p class="departure__info__paragraph">
@@ -47,6 +47,9 @@
           </p>
         </div>
       </div>
+    </div>
+    <div class="expended-info" *ngIf="isOpened">
+      <app-connection-expanded [connection]="connection"></app-connection-expanded>
     </div>
   </div>
 </div>

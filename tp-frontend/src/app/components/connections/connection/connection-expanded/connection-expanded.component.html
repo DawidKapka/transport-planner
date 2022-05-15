@@ -1,0 +1,34 @@
+<div class="connection-expanded">
+  <div class="connection-expanded__sections">
+    <div class="connection-expanded__sections__section" *ngFor="let section of connection.connection.sections">
+      <div *ngIf="section.journey" class="section">
+        <div class="section__departure">
+          <p class="section__time">{{formatTime(section.departure.departure)}}
+            <span class="section__delay" *ngIf="section.departure.delay">{{formatDelay(section.departure.delay)}}</span></p>
+          <p class="section__station">{{section.departure.station.name}}</p>
+          <p class="section__platform">{{formatPlatform(section.departure.platform)}}</p>
+        </div>
+        <div class="section__journey">
+          <div class="section__journey__arrow">
+            <div class="section__journey__arrow__inner"></div>
+          </div>
+          <div class="section__journey__info">
+            <p class="section__journey__info__line">
+              {{section.journey.category}} {{section.journey.number}}
+            </p>
+            <p class="section__journey__info__to">
+              Direction {{section.journey.to}}
+            </p>
+          </div>
+        </div>
+        <div class="section__info"></div>
+        <div class="section__arrival">
+          <p class="section__time">{{formatTime(section.arrival.arrival)}}
+            <span class="section__delay" *ngIf="section.arrival.delay">{{formatDelay(section.arrival.delay)}}</span></p>
+          <p class="section__station">{{section.arrival.station.name}}</p>
+          <p class="section__platform">{{formatPlatform(section.departure.platform)}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
