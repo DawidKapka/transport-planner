@@ -14,7 +14,6 @@ export class ConnectionExpandedComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.connection.connection.sections);
   }
 
   formatTime(time: string) {
@@ -31,6 +30,18 @@ export class ConnectionExpandedComponent implements OnInit {
 
   toggleExpanded() {
     this.isExpanded =  !this.isExpanded
+  }
+
+  getPlatformIcon(platform: string) {
+    if (!isNaN(parseFloat(platform[0]))) {
+      let platformNumber = '';
+      for (let char of platform) {
+        if (!isNaN(parseFloat(char))) platformNumber += char;
+      }
+      return `assets/sbb-pictograms/svg-druck/02_Generisch/01_Gleise/21${platformNumber.length === 1 ? '0' + platformNumber : platformNumber}_Gleis-${platformNumber}_k_de.svg`
+    } else {
+      return `assets/sbb-pictograms/svg-druck/02_Generisch/03_Kanten/Kante-${platform}_k_de.svg`
+    }
   }
 }
 

@@ -6,7 +6,7 @@
           <p class="section__time">{{formatTime(section.departure.departure)}}
             <span class="section__delay" *ngIf="section.departure.delay">{{formatDelay(section.departure.delay)}}</span></p>
           <p class="section__station">{{section.departure.station.name}}</p>
-          <p class="section__platform">{{formatPlatform(section.departure.platform)}}</p>
+          <img [src]="getPlatformIcon(section.departure.platform)" alt="platform" *ngIf="section.departure.platform">
         </div>
         <div class="section__journey">
           <div class="section__journey__arrow">
@@ -26,7 +26,7 @@
           <p class="section__time">{{formatTime(section.arrival.arrival)}}
             <span class="section__delay" *ngIf="section.arrival.delay">{{formatDelay(section.arrival.delay)}}</span></p>
           <p class="section__station">{{section.arrival.station.name}}</p>
-          <p class="section__platform">{{formatPlatform(section.departure.platform)}}</p>
+          <img [src]="getPlatformIcon(section.arrival.platform)" alt="platform" *ngIf="section.arrival.platform">
         </div>
       </div>
     </div>

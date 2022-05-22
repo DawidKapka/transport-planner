@@ -55,4 +55,8 @@ export class ConnectionComponent implements OnInit {
       this.connection = res as ConnectionsResponse;
     })
   }
+
+  getProductIcon(product: string) {
+    return product;
+  }
 }
