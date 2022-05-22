@@ -1,4 +1,4 @@
-import {Body, Controller, Post, Res} from "@nestjs/common";
+import {Body, Controller, Param, Post, Res} from "@nestjs/common";
 import {ConnectionRequests} from "../shared/models/api-requests/connection-requests.model";
 import {ConnectionRequestStation} from "../shared/models/connection/connection-request-station.model";
 import {ConnectionRequestCoordinate} from "../shared/models/connection/connection-request-coordinate.model";
@@ -29,6 +29,30 @@ export class ConnectionsController {
         })
     }
 
+    @Post('earlier')
+    public findEarlierConnection(@Body() req: ConnectionsResponse, @Res() response) {
+        this.getConnection(req.connection.from.station.id, req.connection.to.station.id, req.connection.to.arrival.toString()).then(res => {
+            const connections = (res as Connections).connections;
+            const currentConnectionIndex = connections.findIndex(connection => connection.to.arrivalTimestamp === req.connection.to.arrivalTimestamp);
+            response.send({...req, connection: connections[currentConnectionIndex - 1]});
+        })
+    }
+
+    @Post('later')
+    public findLaterConnection(@Body() req: ConnectionsResponse, @Res() response) {
+        const date = this.addHoursToDate(new Date(req.connection.to.arrivalTimestamp * 1000), 1);
+        this.getConnection(req.connection.from.station.id, req.connection.to.station.id, req.connection.to.arrival.toString()).then(res => {
+            this.getConnection(req.connection.from.station.id, req.connection.to.station.id, date.toISOString()).then(res2 => {
+                const connections = (res as Connections).connections
+                    .concat((res2 as Connections).connections)
+                    .sort((a, b) => a.to.arrivalTimestamp - b.to.arrivalTimestamp);
+                const currentConnectionIndex = connections.findIndex(connection => connection.to.arrivalTimestamp === req.connection.to.arrivalTimestamp)
+                const nextConnection = connections[currentConnectionIndex + 1].to.arrivalTimestamp === req.connection.to.arrivalTimestamp ? connections[currentConnectionIndex + 2] : connections[currentConnectionIndex + 1]
+                response.send({...req, connection: nextConnection});
+            })
+        })
+    }
+
 
     private getConnectionClosestToDate(connections: Connections, date: string): Connection {
         let closestConnection: Connection = null;
@@ -49,15 +73,38 @@ export class ConnectionsController {
     }
 
     private splitDateAndTime(dateTime: string) {
-        const date = new Date(dateTime);
+        const date = this.add30MinutesToDate(new Date(dateTime));
         const yearMonthDay = dateTime.substring(0, 10);
         return {
             date: yearMonthDay,
-            time: `${date.getHours() < 10 ? '0' + date.getHours() : date.getHours()}:${date.getMinutes() + 30 < 10 ? '0' + date.getMinutes()  + 30 : date.getMinutes() + 30}`
+            time: `${date.getHours() < 10 ? '0' + date.getHours() : date.getHours()}:${date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()}`
         }
     }
 
-    private getConnection(departureStation: string, targetStation: string, dateTime: string) {
+    private add30MinutesToDate(date: Date): Date {
+        date.setMinutes(date.getMinutes() + 30);
+        if (date.getMinutes() >= 60) {
+            date.setMinutes(date.getMinutes() - 60);
+            date.setHours(date.getHours() + 1);
+            if (date.getHours() >= 24) {
+                date.setHours(date.getHours() - 24);
+                date.setDate(date.getDate() + 1);
+            }
+        }
+        return date;
+    }
+
+    private addHoursToDate(date: Date, hours: number): Date {
+        //  additional +2, because the date already comes in the format UTC+0200, so 2 hours delayed
+        date.setHours(date.getHours() + hours + 2);
+        if (date.getHours() >= 24) {
+            date.setHours(date.getHours() - 24)
+            date.setDate(date.getDate() + 1)
+        }
+        return date;
+    }
+
+    private getConnection(departureStation: string, targetStation: string, dateTime: string, ) {
         const date: {date: string; time: string;} = this.splitDateAndTime(dateTime);
         return new Promise(resolve => {
             this.httpService.get(
@@ -117,6 +164,8 @@ export class ConnectionsController {
             });
         })
     }
+
+
 
 }
 

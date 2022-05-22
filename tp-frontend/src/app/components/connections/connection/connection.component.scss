@@ -134,3 +134,21 @@
     width: 20%;
   }
 }
+
+.change-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  position: relative;
+  top: 6px;
+  transform: translateY(-50px);
+
+  &__buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__button {
+    padding: 0 20px;
+  }
+}

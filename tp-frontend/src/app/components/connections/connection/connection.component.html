@@ -2,6 +2,13 @@
   <div class="connection-box">
     <div class="participant-title" (click)="openConnection()">
       <p class="participant-title__text">{{participant ? participant.name : ''}}</p>
+
+    </div>
+    <div class="change-buttons">
+      <div class="change-buttons__buttons">
+        <app-typeahead-input-button text="<" (on-click)="getEarlierConnection()" class="change-buttons__button"></app-typeahead-input-button>
+        <app-typeahead-input-button text=">" (on-click)="getLaterConnection()" class="change-buttons__button"></app-typeahead-input-button>
+      </div>
     </div>
     <div class="connection-box__connection" (click)="openConnection()">
       <div class="departure">

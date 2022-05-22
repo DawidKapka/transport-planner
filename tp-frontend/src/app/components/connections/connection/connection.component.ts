@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Participant} from "../../../models/participant.model";
 import {ConnectionsResponse} from "../../../../../../tp-backend/src/shared/models/api-responses/connections-response.model";
+import {ConnectionsService} from "../../../services/connections.service";
 
 @Component({
   selector: 'app-connection',
@@ -13,7 +14,7 @@ export class ConnectionComponent implements OnInit {
   @Input() connection: ConnectionsResponse = null;
   isOpened: boolean = false;
 
-  constructor() { }
+  constructor(private connectionsService: ConnectionsService) { }
 
   ngOnInit(): void {
   }
@@ -41,5 +42,17 @@ export class ConnectionComponent implements OnInit {
 
   openConnection() {
     this.isOpened = !this.isOpened;
+  }
+
+  getEarlierConnection() {
+    this.connectionsService.findEarlierConnection(this.connection).forEach(res => {
+      this.connection = res as ConnectionsResponse;
+    });
+  }
+
+  getLaterConnection() {
+    this.connectionsService.findLaterConnection(this.connection).forEach(res => {
+      this.connection = res as ConnectionsResponse;
+    })
   }
 }
