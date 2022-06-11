@@ -12,10 +12,13 @@ import { TypeaheadInputDatetimeComponent } from './components/minimal/typeahead-
 import { TypeaheadInputButtonComponent } from './components/minimal/typeahead-input/typeahead-input-button/typeahead-input-button.component';
 import { TypeaheadInputTextComponent } from './components/minimal/typeahead-input/typeahead-input-text/typeahead-input-text.component';
 import { ParticipantComponent } from './components/minimal/participant/participant.component';
-import { HomeComponent } from './components/home/home.component';
 import { ConnectionsComponent } from './components/connections/connections.component';
 import { ConnectionComponent } from './components/connections/connection/connection.component';
 import { ConnectionExpandedComponent } from './components/connections/connection/connection-expanded/connection-expanded.component';
+import { StepperComponent } from './components/minimal/stepper/stepper.component';
+import { SplitterComponent } from './components/minimal/splitter/splitter.component';
+import { HeaderComponent } from './components/header/header.component';
+import { IonicModule } from '@ionic/angular';
 
 @NgModule({
   declarations: [
@@ -27,16 +30,19 @@ import { ConnectionExpandedComponent } from './components/connections/connection
     TypeaheadInputButtonComponent,
     TypeaheadInputTextComponent,
     ParticipantComponent,
-    HomeComponent,
     ConnectionsComponent,
     ConnectionComponent,
     ConnectionExpandedComponent,
+    StepperComponent,
+    SplitterComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    IonicModule.forRoot()
   ],
   providers: [ConnectionsService],
   bootstrap: [AppComponent]

@@ -1,71 +1,44 @@
 @import 'src/css/colors.scss';
 
 .form-container {
-  background-color: $color-orange-80;
-  min-height: 200px;
-  padding: 40px;
-  display: flex;
-  justify-content: space-around;
 
-
-  &__destination, &__arrival, &__search {
-    display: inline-block;
-    padding: 8px;
+  &__main {
+    background-color: $color-black-20;
+    padding-bottom: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+    margin-bottom: 16px;
   }
 
-  &__label {
-    margin-bottom: 0;
-    margin-top: 10px;
-    margin-left: 2px;
-    font-weight: bold;
-    color: $color-darkblue-100
+  &__participants {
+    background-color: $color-white-100;
   }
 
-  .participants {
-    width: 100%;
-    display: inline-block;
-    padding-left: 10px;
-    font-weight: bold;
-
-    &__label {
-      margin-left: 2px;
-    }
-
-    &__add {
-      float: right;
-      margin-right: 12px;
-    }
-  }
-}
-
-@media only screen and (max-width: 700px) {
-  .form-container {
+  &__search {
+    position: absolute;
+    height: 144px;
     width: 100vw;
+    bottom: 0;
+    background-color: $color-purple-30;
 
-    &__search {
-      margin: 0 50%;
-      transform: translateX(-50%);
+    .search-button {
+      position: absolute;
+      bottom: 48px;
+      left: calc(50vw - 128px);
     }
   }
 }
 
-@media only screen and (max-width: 700px) {
-  .form-container {
-    padding: 20px 0;
+.participants {
 
-    &__destination, &__arrival {
-      width: 100vw;
-    }
+  &__header {
+    display: flex;
+    padding: 0 16px 16px 16px;
 
     &__label {
-      text-align: center;
-    }
-  }
-
-  .participants {
-
-    &__label {
-      text-align: center;
+      font-size: 22px;
+      margin: 24px 0 0 calc(50% - 16px);
+      transform: translate(-50%, -50%);
+      position: absolute;
     }
   }
 }

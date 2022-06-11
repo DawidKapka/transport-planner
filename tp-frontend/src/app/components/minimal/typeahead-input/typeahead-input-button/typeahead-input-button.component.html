@@ -1,3 +1,13 @@
 <div class="typeahead-container" >
-  <button class="input-typeahead-button" (click)="emitClick()">{{text}}</button>
+  <button class="input-typeahead-button"
+          [ngClass]="{
+            'mini': size === 'mini',
+            'small': size === 'small',
+            'medium': size === 'medium',
+            'large': size === 'large',
+            'primary': color === 'primary',
+            'secondary': color === 'secondary',
+            'positive': color === 'positive',
+            'negative': color === 'negative'
+          }" (click)="emitClick()">{{text}}</button>
 </div>

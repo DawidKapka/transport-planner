@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
+import {ButtonSize, ButtonColor} from '../../../types/types'
 
 @Component({
   selector: 'app-typeahead-input',
@@ -12,10 +13,14 @@ export class TypeaheadInputComponent{
   @Input() text: string = '';
   @Input('station-value') stationText: string = '';
   @Input('date-value') dateValue: string = '';
+  @Input() size: ButtonSize;
+  @Input() color: ButtonColor;
+  @Input('small') isSmall: boolean = false;
 
   @Output('on-click') click = new EventEmitter();
   @Output('station-valueChange') stationValueChange: EventEmitter<string> = new EventEmitter<string>();
   @Output('date-valueChange') dateValueChange: EventEmitter<string> = new EventEmitter<string>();
+
 
   emitStationChange(value: string) {
     this.stationText = value;

@@ -14,6 +14,7 @@ export class TypeaheadInputStationComponent implements OnInit {
   @Output('valueChange') valueChange = new EventEmitter<string>();
 
   @Input() placeholder: string = '';
+  @Input('small') isSmall: boolean = false;
 
   constructor(private connectionsService: ConnectionsService) { }
 

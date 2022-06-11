@@ -1,5 +1,5 @@
-<app-typeahead-input-station *ngIf="type === 'station-search'" [placeholder]="placeholder" [value]="stationText" (valueChange)="emitStationChange($event)"></app-typeahead-input-station>
+<app-typeahead-input-station *ngIf="type === 'station-search'" [small]="isSmall" [placeholder]="placeholder" [value]="stationText" (valueChange)="emitStationChange($event)"></app-typeahead-input-station>
 <app-typeahead-input-datetime *ngIf="type === 'date-time'" [placeholder]="placeholder" [value]="dateValue" (valueChange)="emitDateChange($event)"></app-typeahead-input-datetime>
-<app-typeahead-input-button *ngIf="type === 'button'" [text]="text" (on-click)="emitClick()"></app-typeahead-input-button>
+<app-typeahead-input-button *ngIf="type === 'button'" [size]="size" [color]="color" [text]="text" (on-click)="emitClick()"></app-typeahead-input-button>
 <app-typeahead-input-text *ngIf="type === 'text'" [placeholder]="placeholder"></app-typeahead-input-text>
 

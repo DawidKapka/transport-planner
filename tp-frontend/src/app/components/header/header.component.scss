@@ -1,0 +1,27 @@
+@import 'src/css/colors';
+
+.header {
+  position: sticky;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 98px;
+  background-color: $color-purple-30;
+  z-index: 1;
+
+  &__action {
+    display: flex;
+    justify-content: space-around;
+    height: 32px;
+    width: 32px;
+    position: absolute;
+    left: 16px;
+    bottom: 16px;
+    color: $color-white-100;
+
+    .icon {
+      height: 100%;
+      width: 100%;
+    }
+  }
+}

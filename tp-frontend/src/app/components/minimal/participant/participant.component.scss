@@ -1,20 +1,29 @@
 .participant {
-  display: flex;
-  margin-top: 8px;
-  margin-bottom: 8px;
+  height: 161px;
+  width: 100vw;
 
-  &__name {
-    margin-right: 16px;
+  &__info {
+    display: inline-block;
+    width: calc(100vw - 64px);
+  }
+
+  .full-width {
+    width: 100vw;
   }
 
   &__delete {
-    transform: translateX(16px);
+    width: 48px;
+    position: absolute;
+    height: 144px;
+    display: inline-block;
   }
-}
 
-@media only screen and (max-width: 700px) {
-  .participant {
-    display: block;
-    margin-bottom: 40px;
+  &__delete-button {
+    margin-top: 100%;
+    transform: translateY(-8px);
+  }
+
+  .splitter {
+    margin: 16px 0;
   }
 }

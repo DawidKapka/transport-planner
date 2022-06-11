@@ -1,21 +1,21 @@
 <div class="container">
   <div class="form-container">
     <div class="form-wrapper">
-      <div class="form-container__destination">
-        <p class="form-container__label">Destination*</p>
-        <app-typeahead-input type="station-search" placeholder="Station" [(station-value)]="station"></app-typeahead-input>
-      </div>
-      <div class="form-container__arrival">
-        <p class="form-container__label">Desired Arrival Time</p>
-        <app-typeahead-input type="date-time" [placeholder]="datePlaceholder" [(date-value)]="arrivalDate"></app-typeahead-input>
-      </div>
-      <div class="form-container__search">
-        <app-typeahead-input-button text="Search" (on-click)="findConnections()"></app-typeahead-input-button>
+      <div class="form-container__main">
+        <div class="form-container__destination">
+          <app-typeahead-input type="station-search" placeholder="Destination" [(station-value)]="station"></app-typeahead-input>
+        </div>
+        <div class="form-container__arrival">
+          <app-typeahead-input type="date-time" [placeholder]="datePlaceholder" [(date-value)]="arrivalDate"></app-typeahead-input>
+        </div>
       </div>
       <div class="form-container__participants">
         <div class="participants">
-          <p class="participants__label">Participants*</p>
-          <app-typeahead-input-button text="+" (on-click)="incrementParticipants()"></app-typeahead-input-button>
+          <div class="participants__header">
+            <app-typeahead-input type="button" size="mini" text="+" color="positive" (on-click)="incrementParticipants()"></app-typeahead-input>
+            <p class="participants__header__label">Participants</p>
+          </div>
+          <app-splitter size="small"></app-splitter>
           <div class="participants__list">
             <app-participant
               *ngFor="let participant of participants"
@@ -26,6 +26,9 @@
               [(station-name)]="participant.departureStation"></app-participant>
           </div>
         </div>
+      </div>
+      <div class="form-container__search">
+        <app-typeahead-input type="button" size="large" text="Search" color="primary" (on-click)="findConnections()" class="search-button"></app-typeahead-input>
       </div>
     </div>
   </div>

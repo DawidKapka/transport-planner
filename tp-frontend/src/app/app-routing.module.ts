@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {HomeComponent} from "./components/home/home.component";
+import {ConnectionsComponent} from "./components/connections/connections.component";
+import {ConnectionSearchComponent} from "./components/connection-search/connection-search.component";
 
 const routes: Routes = [
-  {path: '', redirectTo: 'home', pathMatch: 'full'},
-  {path: 'home', component: HomeComponent}
+  {path: '', redirectTo: 'create', pathMatch: 'full'},
+  {path: 'create', component: ConnectionSearchComponent}
 ];
 
 @NgModule({

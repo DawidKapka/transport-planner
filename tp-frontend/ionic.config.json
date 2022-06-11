@@ -1,0 +1,10 @@
+{
+  "defaultProject": "tp-frontend",
+  "projects": {
+    "tp-frontend": {
+      "name": "tp-frontend",
+      "integrations": {},
+      "type": "angular"
+    }
+  }
+}

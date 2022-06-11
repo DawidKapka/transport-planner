@@ -1,0 +1,14 @@
+@import 'src/css/colors';
+
+.splitter {
+  width: calc(100vw - 32px);
+  margin: 0 16px;
+}
+
+.small {
+  border-bottom: 1px solid $color-black-40;
+}
+
+.large {
+  border-bottom: 2px solid $color-black-40;
+}
