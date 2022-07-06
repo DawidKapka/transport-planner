@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ConnectionsResponse} from "../../../../../../../tp-backend/src/shared/models/api-responses/connections-response.model";
+import {ConnectionsResponse} from "../../../../../../../shared/models/api-responses/connections-response.model";
 import {ActivatedRoute} from "@angular/router";
 import {ConnectionsService} from "../../../../services/connections.service";
 

@@ -1,4 +1,4 @@
-import {ConnectionsResponse} from "../../../../tp-backend/src/shared/models/api-responses/connections-response.model";
+import {ConnectionsResponse} from "../../../../shared/models/api-responses/connections-response.model";
 import {Participant} from "./participant.model";
 
 export interface Connection {

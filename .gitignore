@@ -104,6 +104,7 @@ dist
 .tern-port
 
 tp-backend/credentials.json
+tp-frontend/src/credentials.json
 tp-frontend/.angular/
 tp-frontend/.vscode/
 .idea/

@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Participant} from "../../../models/participant.model";
-import {ConnectionsResponse} from "../../../../../../tp-backend/src/shared/models/api-responses/connections-response.model";
+import {ConnectionsResponse} from "../../../../../../shared/models/api-responses/connections-response.model";
 import {ConnectionsService} from "../../../services/connections.service";
 import {Router} from "@angular/router";
 import {TripService} from "../../../services/trip.service";
