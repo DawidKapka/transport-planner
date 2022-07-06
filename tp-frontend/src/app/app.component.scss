@@ -1,0 +1,10 @@
+@import 'src/css/colors';
+
+.toolbar {
+  --ion-color-base: $color-purple-30 !important;
+  height: 98px;
+
+  .title {
+    height: 100%;
+  }
+}

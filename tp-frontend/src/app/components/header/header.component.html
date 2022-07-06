@@ -1,5 +1,6 @@
 <div class="header">
   <div class="header__action">
-    <ion-icon name="menu-sharp" class="icon"></ion-icon>
+    <ion-menu-button *ngIf="isMenuButton()" class="menu-button"></ion-menu-button>
+    <ion-button *ngIf="isConnectionDetail()" class="back-button" color="transparent" (click)="navigateBackToConnections()"><ion-icon name="chevron-back"></ion-icon></ion-button>
   </div>
 </div>

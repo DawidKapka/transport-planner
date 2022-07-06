@@ -8,6 +8,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 export class TypeaheadInputTextComponent implements OnInit {
   @Input() placeholder: string = '';
   @Input('value') currentValue: string = '';
+  @Input('error') error: boolean = false;
   @Output('valueChange') valueChange: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() { }

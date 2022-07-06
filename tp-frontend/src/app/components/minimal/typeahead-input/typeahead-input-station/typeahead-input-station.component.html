@@ -1,5 +1,5 @@
 <div class="typeahead-container" >
-  <input type="text" #inputField class="input-typeahead" (focusout)="closeTypeahead()" (focus)="openTypeahead()"  (input)="updateTypeahead()" [(ngModel)]="currentValue" [ngClass]="{'input-with-suggestions': typeaheadSuggestions.length > 0}" [placeholder]="placeholder">
+  <input [ngClass]="{'error': error}" type="text" #inputField class="input-typeahead" (focusout)="closeTypeahead()" (focus)="openTypeahead()"  (input)="updateTypeahead()" [(ngModel)]="currentValue" [ngClass]="{'input-with-suggestions': typeaheadSuggestions.length > 0}" [placeholder]="placeholder">
   <div class="typeahead-suggestions" [ngClass]="{'small': isSmall}" *ngIf="typeaheadSuggestions.length > 1 && typeaheadOpen">
     <div class="typeahead-suggestion" *ngFor="let suggestion of typeaheadSuggestions" (click)="copyToTypeahead(suggestion.name)">
       <p class="typeahead-suggestion__paragraph">{{suggestion.name}}</p>

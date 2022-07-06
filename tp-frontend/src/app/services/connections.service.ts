@@ -9,6 +9,7 @@ import {ConnectionsResponse} from "../../../../tp-backend/src/shared/models/api-
 })
 export class ConnectionsService {
   private API_BASE_URL: string = 'http://localhost:3000';
+  public expandedConnection: ConnectionsResponse;
 
   constructor(private http: HttpClient) {
   }

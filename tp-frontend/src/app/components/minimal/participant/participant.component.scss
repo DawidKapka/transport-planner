@@ -1,5 +1,4 @@
 .participant {
-  height: 161px;
   width: 100vw;
 
   &__info {
@@ -13,14 +12,11 @@
 
   &__delete {
     width: 48px;
-    position: absolute;
-    height: 144px;
     display: inline-block;
+    transform: translateY(-70%);
   }
 
   &__delete-button {
-    margin-top: 100%;
-    transform: translateY(-8px);
   }
 
   .splitter {

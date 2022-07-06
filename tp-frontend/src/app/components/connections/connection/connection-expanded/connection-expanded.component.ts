@@ -1,5 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ConnectionsResponse} from "../../../../../../../tp-backend/src/shared/models/api-responses/connections-response.model";
+import {ActivatedRoute} from "@angular/router";
+import {ConnectionsService} from "../../../../services/connections.service";
 
 @Component({
   selector: 'app-connection-expanded',
@@ -8,10 +10,13 @@ import {ConnectionsResponse} from "../../../../../../../tp-backend/src/shared/mo
 })
 export class ConnectionExpandedComponent implements OnInit {
 
-  @Input() connection: ConnectionsResponse;
+  connection: ConnectionsResponse;
   isExpanded: boolean = false;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute, private connectionsService: ConnectionsService) {
+    this.connection = this.connectionsService.expandedConnection;
+    console.log(this.connection);
+  }
 
   ngOnInit(): void {
   }

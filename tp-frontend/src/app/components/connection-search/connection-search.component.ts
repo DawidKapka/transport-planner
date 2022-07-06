@@ -3,6 +3,8 @@ import {Participant} from "../../models/participant.model";
 import {ConnectionRequests} from "../../../../../tp-backend/src/shared/models/api-requests/connection-requests.model";
 import {ConnectionsService} from "../../services/connections.service";
 import {ConnectionsResponse} from "../../../../../tp-backend/src/shared/models/api-responses/connections-response.model";
+import {TripService} from "../../services/trip.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-connection-search',
@@ -14,12 +16,11 @@ export class ConnectionSearchComponent implements OnInit {
   public station: string = '';
   public arrivalDate: string = '';
   public datePlaceholder: string = '';
+  public showSpinner: boolean = false;
+  public destinationError: boolean = false;
 
-  @Output('connections') connections: EventEmitter<ConnectionsResponse[]> = new EventEmitter<ConnectionsResponse[]>();
-  @Output('participants') participantsEmitter: EventEmitter<Participant[]> = new EventEmitter<Participant[]>();
-
-  constructor(private connectionService: ConnectionsService) {
-    const date = new Date(Date.now()).toLocaleString('de-CH', {timeZone: 'europe/berlin', hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric'});
+  constructor(private connectionService: ConnectionsService, private tripService: TripService, private router: Router) {
+    const date = ConnectionSearchComponent.getCurrentDate();
     const dateFormatted = date.substring(0, 2) + ' - '
       + date.substring(3, 5) + ' - '
       + date.substring(6, 10) + ' : '
@@ -28,21 +29,47 @@ export class ConnectionSearchComponent implements OnInit {
     this.datePlaceholder = dateFormatted;
   }
 
+  private static getCurrentDate(): string {
+    return new Date(Date.now()).toLocaleString('de-CH', {timeZone: 'europe/berlin', hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric'});
+  }
+
   ngOnInit(): void {
-    this.participants.push({id: 1, name: '', departureStation: ''});
+    this.participants.push({id: 1, name: '', departureStation: '', nameError: false, stationError: false});
   }
 
   public incrementParticipants() {
-    this.participants.push({id: this.participants.length +1, name: '', departureStation: ''});
+    this.participants.push({id: this.participants.length +1, name: '', departureStation: '', nameError: false, stationError: false});
   }
 
   public findConnections() {
-    this.connectionService.findConnections(this.createRequest()).forEach(res => {
-      this.connections.emit(res as ConnectionsResponse[]);
-      this.participantsEmitter.emit(this.participants);
-    });
+    if (this.validateFormFields()) {
+      ConnectionSearchComponent.playLeaveAnimation();
+      this.showSpinner = true;
+      this.connectionService.findConnections(this.createRequest()).forEach(res => {
+        this.tripService.setArrivalStation(this.station);
+        this.tripService.setArrivalDate(this.arrivalDate ? this.arrivalDate : ConnectionSearchComponent.getCurrentDate())
+        this.tripService.setConnections(res as ConnectionsResponse[])
+        this.tripService.setParticipants(this.participants)
+        this.router.navigate(['configure']);
+      });
+    }
+  }
 
+  private validateFormFields(): boolean {
+    this.destinationError = !this.station
+    const checkParticipants = this.validateParticipants();
+    return !(this.destinationError || !checkParticipants);
 
+  }
+
+  private validateParticipants(): boolean {
+    let errors = 0;
+    for (let participant of this.participants) {
+      participant.nameError = !participant.name;
+      participant.stationError = !participant.departureStation;
+      if (participant.nameError || participant.stationError) errors++;
+    }
+    return errors === 0;
   }
 
   private createRequest() {
@@ -72,5 +99,11 @@ export class ConnectionSearchComponent implements OnInit {
     this.participants = this.participants.length > 1
       ? this.participants.filter(participant => participant.id !== id)
       : this.participants;
+  }
+
+  private static playLeaveAnimation() {
+    document.querySelector('.form-container__main').classList.add('leave-up');
+    document.querySelector('.form-container__participants').classList.add('leave-up-double');
+    document.querySelector('.form-container__search').classList.add('leave-down');
   }
 }

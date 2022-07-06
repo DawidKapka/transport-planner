@@ -16,6 +16,7 @@ export class TypeaheadInputComponent{
   @Input() size: ButtonSize;
   @Input() color: ButtonColor;
   @Input('small') isSmall: boolean = false;
+  @Input('error') error: boolean = false;
 
   @Output('on-click') click = new EventEmitter();
   @Output('station-valueChange') stationValueChange: EventEmitter<string> = new EventEmitter<string>();

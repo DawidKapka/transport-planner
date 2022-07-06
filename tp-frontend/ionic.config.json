@@ -6,5 +6,8 @@
       "integrations": {},
       "type": "angular"
     }
+  },
+  "integrations": {
+    "capacitor": {}
   }
 }

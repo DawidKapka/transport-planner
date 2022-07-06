@@ -1,0 +1,27 @@
+<div class="wrapper">
+  <div class="connections">
+    <div class="topbar">
+      <app-stepper class="stepper" [second-step]="true"></app-stepper>
+      <div class="title">
+        <p class="title__text">Connections</p>
+      </div>
+    </div>
+    <app-connection (expand)="navigateToConnection()" *ngFor="let connection of connections; let i = index" [connection]="connection" [participant]="participants[i]"></app-connection>
+  </div>
+  <div class="continue">
+    <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+         viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+      <defs>
+        <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+      </defs>
+      <g class="parallax">
+        <use xlink:href="#gentle-wave" x="48" y="0" class="svg-1"/>
+        <use xlink:href="#gentle-wave" x="48" y="3" class="svg-2"/>
+        <use xlink:href="#gentle-wave" x="48" y="5" class="svg-3" />
+        <use xlink:href="#gentle-wave" x="48" y="7" class="svg-4" />
+      </g>
+    </svg>
+    <app-typeahead-input type="button" size="large" text="Finish" color="primary" class="continue-button" (on-click)="continue()"></app-typeahead-input>
+  </div>
+</div>
+

@@ -19,6 +19,12 @@ import { StepperComponent } from './components/minimal/stepper/stepper.component
 import { SplitterComponent } from './components/minimal/splitter/splitter.component';
 import { HeaderComponent } from './components/header/header.component';
 import { IonicModule } from '@ionic/angular';
+import { TripConfigurationComponent } from './components/trip-configuration/trip-configuration.component';
+import {ConfigurationGuard} from "./guards/configuration.guard";
+import { FinalizationComponent } from './components/finalization/finalization.component';
+import { TripMapComponent } from './components/trip-map/trip-map.component';
+import { default as credentials} from '../credentials.json'
+import {AgmCoreModule} from "@agm/core";
 
 @NgModule({
   declarations: [
@@ -36,15 +42,21 @@ import { IonicModule } from '@ionic/angular';
     StepperComponent,
     SplitterComponent,
     HeaderComponent,
+    TripConfigurationComponent,
+    FinalizationComponent,
+    TripMapComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    IonicModule.forRoot()
+    IonicModule.forRoot(),
+    AgmCoreModule.forRoot({
+      apiKey: credentials.apiKey
+    })
   ],
-  providers: [ConnectionsService],
+  providers: [ConnectionsService, ConfigurationGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

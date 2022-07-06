@@ -41,6 +41,11 @@
   }
 }
 
+.transparent {
+  background-color: transparent;
+  box-shadow: none;
+}
+
 .secondary {
   background-color: $color-purple-30;
   color: $color-white-100;

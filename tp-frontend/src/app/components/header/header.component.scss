@@ -19,9 +19,13 @@
     bottom: 16px;
     color: $color-white-100;
 
-    .icon {
-      height: 100%;
-      width: 100%;
+
+    .menu-button {
+      color: $color-white-100;
+    }
+
+    .back-button {
+      transform: translateY(-10px);
     }
   }
 }

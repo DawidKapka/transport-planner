@@ -1,7 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Participant} from "../../../models/participant.model";
 import {ConnectionsResponse} from "../../../../../../tp-backend/src/shared/models/api-responses/connections-response.model";
 import {ConnectionsService} from "../../../services/connections.service";
+import {Router} from "@angular/router";
+import {TripService} from "../../../services/trip.service";
 
 @Component({
   selector: 'app-connection',
@@ -12,9 +14,11 @@ export class ConnectionComponent implements OnInit {
 
   @Input() participant: Participant = null;
   @Input() connection: ConnectionsResponse = null;
+  @Output() expand: EventEmitter<void> = new EventEmitter<void>();
   isOpened: boolean = false;
+  isLoading: boolean = false;
 
-  constructor(private connectionsService: ConnectionsService) { }
+  constructor(private connectionsService: ConnectionsService, private tripService: TripService) { }
 
   ngOnInit(): void {
   }
@@ -41,19 +45,31 @@ export class ConnectionComponent implements OnInit {
   }
 
   openConnection() {
-    this.isOpened = !this.isOpened;
+    this.connectionsService.expandedConnection = this.connection;
+    this.expand.emit();
   }
 
   getEarlierConnection() {
+    this.isLoading = true;
     this.connectionsService.findEarlierConnection(this.connection).forEach(res => {
-      this.connection = res as ConnectionsResponse;
+      this.connection = res as ConnectionsResponse
+      this.changeConnection();
+      this.isLoading = false;
     });
   }
 
   getLaterConnection() {
+    this.isLoading = true;
     this.connectionsService.findLaterConnection(this.connection).forEach(res => {
       this.connection = res as ConnectionsResponse;
+      this.changeConnection();
+      this.isLoading = false;
     })
+  }
+
+  private changeConnection() {
+    const connection = this.tripService.getConnections().find(connection => connection.participantId = this.connection.participantId);
+    connection.connection = this.connection.connection;
   }
 
   getProductIcon(product: string) {

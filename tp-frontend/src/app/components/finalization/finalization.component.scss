@@ -1,0 +1,19 @@
+@import 'src/css/colors.scss';
+
+.topbar {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+}
+
+.title {
+  padding: 16px 0 16px 0;
+  width: 100vw;
+  display: flex;
+  justify-content: space-around;
+  background-color: $color-black-20;
+
+
+  &__text {
+    font-size: 22px;
+    margin: 0;
+  }
+}

@@ -1,1 +1,29 @@
-<p>stepper works!</p>
+<div class="stepper-wrapper">
+  <div class="step-1" (click)="goToFirstStep()">
+    <div class="step-2">
+      <div class="step-3">
+        <div class="step-4" *ngIf="firstStep"></div>
+      </div>
+    </div>
+  </div>
+  <div class="connector">
+    <div class="connector__inner"></div>
+  </div>
+  <div class="step-1" (click)="goToSecondStep()">
+    <div class="step-2">
+      <div class="step-3">
+        <div class="step-4" *ngIf="secondStep"></div>
+      </div>
+    </div>
+  </div>
+  <div class="connector">
+    <div class="connector__inner"></div>
+  </div>
+  <div class="step-1" (click)="goToThirdStep()">
+    <div class="step-2">
+      <div class="step-3">
+        <div class="step-4" *ngIf="thirdStep"></div>
+      </div>
+    </div>
+  </div>
+</div>

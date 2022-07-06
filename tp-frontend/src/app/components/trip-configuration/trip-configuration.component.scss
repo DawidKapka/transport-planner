@@ -1,0 +1,100 @@
+@import 'src/css/colors.scss';
+@import 'src/css/animations.scss';
+
+.parallax > use {
+  animation: move-forever 100s cubic-bezier(.55,.5,.45,.5)     infinite;
+}
+.parallax > use:nth-child(1) {
+  animation-delay: -4s;
+  animation-duration: 24s;
+}
+.parallax > use:nth-child(2) {
+  animation-delay: -5s;
+  animation-duration: 30s;
+}
+.parallax > use:nth-child(3) {
+  animation-delay: -6s;
+  animation-duration: 36s;
+}
+.parallax > use:nth-child(4) {
+  animation-delay: -7s;
+  animation-duration: 50s;
+}
+
+.continue {
+  position: absolute;
+  height: 124px;
+  width: 100vw;
+  bottom: 0;
+  background-color: $color-purple-30;
+  animation: slide-up-from-bottom 500ms;
+
+  .continue-button {
+    position: absolute;
+    bottom: 48px;
+    left: calc(50vw - 128px);
+  }
+}
+
+.svg-1 {
+  fill: $color-white-100;
+}
+
+.svg-2 {
+  fill: $color-purple-10;
+}
+
+.svg-3 {
+  fill: $color-purple-20;
+}
+
+.svg-4 {
+  fill: $color-purple-30;
+}
+
+.waves {
+  transform: translateY(-100%);
+}
+
+.waves {
+  position:relative;
+  width: 100%;
+  margin-bottom:-7px;
+}
+
+.leave-up {
+  animation: slide-up 500ms;
+  transform: translateY(-100%);
+}
+
+.leave-up-double {
+  animation: slide-up-double 500ms;
+  transform: translateY(-200%);
+}
+
+.leave-down {
+  animation: slide-down 500ms;
+  transform: translateY(200%);
+}
+
+.connections {
+  animation: slide-in-from-top 500ms;
+}
+
+.topbar {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+}
+
+.title {
+  padding: 16px 0 16px 0;
+  width: 100vw;
+  display: flex;
+  justify-content: space-around;
+  background-color: $color-black-20;
+
+
+  &__text {
+    font-size: 22px;
+    margin: 0;
+  }
+}

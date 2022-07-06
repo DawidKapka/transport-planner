@@ -11,10 +11,13 @@ export class ParticipantComponent implements OnInit {
   @Input('deletable') isDeletable: boolean = false;
   @Input('name') participantName: string = '';
   @Input('station-name') stationName: string = '';
+  @Input('name-error') nameError: boolean = false;
+  @Input('station-error') stationError: boolean = false;
 
   @Output('delete') deleteParticipant: EventEmitter<number> = new EventEmitter<number>();
   @Output('nameChange') nameChange: EventEmitter<string> = new EventEmitter<string>();
   @Output('station-nameChange') stationNameChange: EventEmitter<string> = new EventEmitter<string>();
+
 
 
   constructor() { }

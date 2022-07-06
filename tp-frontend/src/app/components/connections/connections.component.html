@@ -1,5 +1,6 @@
 <div class="connections">
   <app-connection *ngFor="let connectionWithParticipant of connectionsWithParticipants"
                   [participant]="connectionWithParticipant.participant"
-                  [connection]="connectionWithParticipant.connection"></app-connection>
+                  [connection]="connectionWithParticipant.connection"
+                  (expand)="expandConnection()"></app-connection>
 </div>

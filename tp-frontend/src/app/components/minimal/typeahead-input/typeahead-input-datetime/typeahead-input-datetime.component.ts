@@ -8,6 +8,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 export class TypeaheadInputDatetimeComponent implements OnInit {
   @Input() placeholder: string = '';
   @Input('value') text: string = '';
+  @Input('error') error: boolean = false;
 
   @Output('valueChange') valueChange: EventEmitter<string> = new EventEmitter<string>();
 

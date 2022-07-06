@@ -1,9 +1,9 @@
 <div class="participant">
   <div class="participant__info" [ngClass]="{'full-width': !isDeletable}">
-    <app-typeahead-input-text placeholder="Name" class="participant__name" (valueChange)="emitNameChange($event)" [(value)]="participantName"></app-typeahead-input-text>
-    <app-typeahead-input-station [small]="isDeletable" placeholder="Departure Station" [(value)]="stationName" (valueChange)="emitStationNameChange()"></app-typeahead-input-station>
+    <app-typeahead-input-text [error]="nameError" placeholder="Name" class="participant__name" (valueChange)="emitNameChange($event)" [(value)]="participantName"></app-typeahead-input-text>
+    <app-typeahead-input-station [error]="stationError" [small]="isDeletable" placeholder="Departure Station" [(value)]="stationName" (valueChange)="emitStationNameChange()"></app-typeahead-input-station>
   </div>
-  <div class="participant__delete">
+  <div class="participant__delete" *ngIf="isDeletable">
     <div class="participant__delete-button">
       <app-typeahead-input text="-" type="button" color="negative" size="mini" (on-click)="delete()" *ngIf="isDeletable"></app-typeahead-input>
     </div>

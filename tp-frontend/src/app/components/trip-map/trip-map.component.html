@@ -1,0 +1,4 @@
+<agm-map [latitude]="lat" [longitude]="lng" [styles]="styles" [disableDefaultUI]="true" [fitBounds]="true">
+  <agm-marker [latitude]="lat" [longitude]="lng" label="Destination" [agmFitBounds]="true"></agm-marker>
+  <agm-marker *ngFor="let marker of stationMarkers" [latitude]="marker.lat" [longitude]="marker.lng" [label]="marker.label" [agmFitBounds]="true"></agm-marker>
+</agm-map>

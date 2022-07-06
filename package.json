@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start:fe": "cd tp-frontend && npm run start",
+    "start:fe": "cd tp-frontend && ionic serve",
     "start:be": "cd tp-backend && npm run start"
   },
   "repository": {

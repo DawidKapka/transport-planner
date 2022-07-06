@@ -4,14 +4,9 @@
       <p class="participant-title__text">{{participant ? participant.name : ''}}</p>
 
     </div>
-    <div class="change-buttons">
-      <div class="change-buttons__buttons">
-        <app-typeahead-input-button text="<" (on-click)="getEarlierConnection()" class="change-buttons__button"></app-typeahead-input-button>
-        <app-typeahead-input-button text=">" (on-click)="getLaterConnection()" class="change-buttons__button"></app-typeahead-input-button>
-      </div>
-    </div>
-    <div class="connection-box__connection" (click)="openConnection()">
-      <div class="departure">
+    <div class="connection-box__connection">
+      <app-typeahead-input-button text="<" (on-click)="getEarlierConnection()" class="change-button" color="transparent"></app-typeahead-input-button>
+      <div class="departure" (click)="openConnection()" *ngIf="!isLoading">
         <div class="departure__info">
           <p class="departure__info__paragraph">
             {{connection.connection.from.station.name}}
@@ -25,10 +20,15 @@
           </p>
         </div>
       </div>
-      <div class="journey">
-        <div class="journey__arrow"></div>
+      <div class="journey__wrapper" (click)="openConnection()" *ngIf="!isLoading">
+        <div class="infos">
+          <p class="time">{{formatDuration(connection.connection.duration)}}</p>
+        </div>
+        <div class="journey">
+          <div class="journey__arrow"></div>
+        </div>
       </div>
-      <div class="arrival">
+      <div class="arrival" (click)="openConnection()" *ngIf="!isLoading">
         <div class="arrival__info">
           <p class="arrival__info__paragraph">
             {{connection.connection.to.station.name}}
@@ -42,21 +42,10 @@
           </p>
         </div>
       </div>
-      <div class="time">
-        <div class="time__paragraph">
-          {{formatDuration(connection.connection.duration)}}
-        </div>
+      <div class="spinner-wrapper" *ngIf="isLoading">
+        <ion-spinner class="spinner"></ion-spinner>
       </div>
-      <div class="service">
-        <div class="service__info">
-          <p class="service__info__paragraph" *ngFor="let product of connection.connection.products">
-            {{getProductIcon(product)}}
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="expended-info" *ngIf="isOpened">
-      <app-connection-expanded [connection]="connection"></app-connection-expanded>
+      <app-typeahead-input-button text=">" (on-click)="getLaterConnection()" class="change-button" color="transparent"></app-typeahead-input-button>
     </div>
   </div>
 </div>

@@ -1,21 +1,27 @@
 @import 'src/css/colors.scss';
+@import 'src/css/animations.scss';
 
 .form-container {
+  overflow: auto;
+  height: calc(100vh - 242px);
 
   &__main {
     background-color: $color-black-20;
     padding-bottom: 16px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.25);
     margin-bottom: 16px;
+    animation: slide-in-from-top 500ms;
   }
 
   &__participants {
     background-color: $color-white-100;
+    margin-bottom: 64px;
+    animation: slide-in-from-left 500ms;
   }
 
   &__search {
     position: absolute;
-    height: 144px;
+    height: 124px;
     width: 100vw;
     bottom: 0;
     background-color: $color-purple-30;
@@ -36,9 +42,89 @@
 
     &__label {
       font-size: 22px;
-      margin: 24px 0 0 calc(50% - 16px);
-      transform: translate(-50%, -50%);
-      position: absolute;
+      margin: 13px 0 0 50vw;
+      transform: translateX(-100%);
     }
   }
 }
+
+.svg-1 {
+  fill: $color-white-100;
+}
+
+.svg-2 {
+  fill: $color-purple-10;
+}
+
+.svg-3 {
+  fill: $color-purple-20;
+}
+
+.svg-4 {
+  fill: $color-purple-30;
+}
+
+.waves {
+  transform: translateY(-100%);
+}
+
+.waves {
+  position:relative;
+  width: 100%;
+  margin-bottom:-7px; /*Fix for safari gap*/
+}
+
+.content {
+  position:relative;
+  text-align:center;
+  background-color: white;
+}
+
+.leave-up {
+  animation: slide-up 500ms;
+  transform: translateY(-100%);
+}
+
+.leave-up-double {
+  animation: slide-up-double 500ms;
+  transform: translateY(-200%);
+}
+
+.leave-down {
+  animation: slide-down 500ms;
+  transform: translateY(200%);
+}
+
+.spinner-wrapper {
+  position: absolute;
+  width: 100vw;
+  display: flex;
+  justify-content: space-around;
+  transform: translateY(-50vh);
+
+  .spinner {
+    transform: scale(2);
+  }
+}
+
+.parallax > use {
+  animation: move-forever 100s cubic-bezier(.55,.5,.45,.5)     infinite;
+}
+.parallax > use:nth-child(1) {
+  animation-delay: -4s;
+  animation-duration: 24s;
+}
+.parallax > use:nth-child(2) {
+  animation-delay: -5s;
+  animation-duration: 30s;
+}
+.parallax > use:nth-child(3) {
+  animation-delay: -6s;
+  animation-duration: 36s;
+}
+.parallax > use:nth-child(4) {
+  animation-delay: -7s;
+  animation-duration: 50s;
+}
+
+

@@ -2,8 +2,9 @@
   <div class="form-container">
     <div class="form-wrapper">
       <div class="form-container__main">
+        <app-stepper [first-step]="true"></app-stepper>
         <div class="form-container__destination">
-          <app-typeahead-input type="station-search" placeholder="Destination" [(station-value)]="station"></app-typeahead-input>
+          <app-typeahead-input [error]="destinationError" type="station-search" placeholder="Destination" [(station-value)]="station"></app-typeahead-input>
         </div>
         <div class="form-container__arrival">
           <app-typeahead-input type="date-time" [placeholder]="datePlaceholder" [(date-value)]="arrivalDate"></app-typeahead-input>
@@ -23,13 +24,31 @@
               [deletable]="participants.length > 1"
               (delete)="deleteParticipant($event)"
               [(name)]="participant.name"
-              [(station-name)]="participant.departureStation"></app-participant>
+              [(station-name)]="participant.departureStation"
+              [name-error]="participant.nameError"
+              [station-error]="participant.stationError"
+              ></app-participant>
           </div>
         </div>
       </div>
       <div class="form-container__search">
+        <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+             viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+          <defs>
+            <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+          </defs>
+          <g class="parallax">
+            <use xlink:href="#gentle-wave" x="48" y="0" class="svg-1"/>
+            <use xlink:href="#gentle-wave" x="48" y="3" class="svg-2"/>
+            <use xlink:href="#gentle-wave" x="48" y="5" class="svg-3" />
+            <use xlink:href="#gentle-wave" x="48" y="7" class="svg-4" />
+          </g>
+        </svg>
         <app-typeahead-input type="button" size="large" text="Search" color="primary" (on-click)="findConnections()" class="search-button"></app-typeahead-input>
       </div>
     </div>
+  </div>
+  <div class="spinner-wrapper" *ngIf="showSpinner">
+    <ion-spinner name="crescent" class="spinner"></ion-spinner>
   </div>
 </div>

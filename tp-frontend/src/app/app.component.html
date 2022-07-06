@@ -1,2 +1,17 @@
 <app-header></app-header>
-<router-outlet></router-outlet>
+<ion-menu side="start" content-id="content">
+  <ion-header>
+    <ion-toolbar class="toolbar">
+      <ion-title class="title">Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item class="item">
+        <ion-icon name="add-circle-sharp" slot="start"></ion-icon>
+        <ion-label>Create trip</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+<router-outlet id="content"></router-outlet>
