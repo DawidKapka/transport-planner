@@ -1,13 +1,13 @@
 import {Body, Controller, Param, Post, Res} from "@nestjs/common";
-import {ConnectionRequests} from "../../../shared/models/api-requests/connection-requests.model";
-import {ConnectionRequestStation} from "../../../shared/models/connection/connection-request-station.model";
-import {ConnectionRequestCoordinate} from "../../../shared/models/connection/connection-request-coordinate.model";
+import {ConnectionRequests} from "../../../lib/models/api-requests/connection-requests.model";
+import {ConnectionRequestStation} from "../../../lib/models/connection/connection-request-station.model";
+import {ConnectionRequestCoordinate} from "../../../lib/models/connection/connection-request-coordinate.model";
 import {HttpService} from "@nestjs/axios";
 
-import {Station} from "../../../shared/models/station/station.model";
-import {Connections} from "../../../shared/models/connection/connections.model";
-import {Connection} from "../../../shared/models/connection/connection.model";
-import {ConnectionsResponse} from "../../../shared/models/api-responses/connections-response.model";
+import {Station} from "../../../lib/models/station/station.model";
+import {Connections} from "../../../lib/models/connection/connections.model";
+import {Connection} from "../../../lib/models/connection/connection.model";
+import {ConnectionsResponse} from "../../../lib/models/api-responses/connections-response.model";
 
 @Controller('connections')
 export class ConnectionsController {

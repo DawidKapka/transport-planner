@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {TripService} from "../../services/trip.service";
 import {Participant} from "../../models/participant.model";
-import {ConnectionsResponse} from "../../../../../shared/models/api-responses/connections-response.model";
-import {Station} from "../../../../../shared/models/station/station.model";
+import {ConnectionsResponse} from "../../../../../lib/models/api-responses/connections-response.model";
+import {Station} from "../../../../../lib/models/station/station.model";
 import {Router} from "@angular/router";
 import {Trip} from "../../models/trip.model";
 import {ConnectionsService} from "../../services/connections.service";

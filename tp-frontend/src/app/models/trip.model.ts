@@ -1,4 +1,4 @@
-import {Station} from "../../../../shared/models/station/station.model";
+import {Station} from "../../../../lib/models/station/station.model";
 import {Connection} from "./connection.model";
 
 

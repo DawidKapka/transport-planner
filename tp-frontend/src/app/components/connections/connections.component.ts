@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ConnectionsResponse} from "../../../../../shared/models/api-responses/connections-response.model";
+import {ConnectionsResponse} from "../../../../../lib/models/api-responses/connections-response.model";
 import {Participant} from "../../models/participant.model";
 
 @Component({
