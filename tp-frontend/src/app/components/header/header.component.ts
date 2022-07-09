@@ -15,7 +15,7 @@ export class HeaderComponent implements OnInit {
   }
 
   isMenuButton() {
-    return !this.isConnectionDetail();
+    return !this.isConnectionDetail() && window.location.pathname !== '/login' && window.location.pathname !== '/register';
   }
 
   isConnectionDetail() {

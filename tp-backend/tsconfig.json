@@ -16,12 +16,13 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "resolveJsonModule": true
   },
   "references": [
     {
       "path": "../lib",
-      "prepend": true,
+      "prepend": true
     }
   ]
 }

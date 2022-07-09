@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/DawidKapka/transport-planner/issues"
   },
-  "homepage": "https://github.com/DawidKapka/transport-planner#readme"
+  "homepage": "https://github.com/DawidKapka/transport-planner#readme",
+  "devDependencies": {
+    "@types/node": "^18.0.3"
+  },
+  "dependencies": {
+    "@types/crypto-js": "^4.1.1",
+    "crypto-js": "^4.1.1"
+  }
 }

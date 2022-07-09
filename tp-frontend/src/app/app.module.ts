@@ -25,6 +25,10 @@ import { FinalizationComponent } from './components/finalization/finalization.co
 import { TripMapComponent } from './components/trip-map/trip-map.component';
 import { default as credentials} from '../credentials.json'
 import {AgmCoreModule} from "@agm/core";
+import {AuthService} from "./services/auth.service";
+import {AuthGuard} from "./guards/auth.guard";
+import { LoginComponent } from './components/auth/login/login.component';
+import { RegisterComponent } from './components/auth/register/register.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +49,8 @@ import {AgmCoreModule} from "@agm/core";
     TripConfigurationComponent,
     FinalizationComponent,
     TripMapComponent,
+    LoginComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,7 +62,7 @@ import {AgmCoreModule} from "@agm/core";
       apiKey: credentials.apiKey
     })
   ],
-  providers: [ConnectionsService, ConfigurationGuard],
+  providers: [ConnectionsService, ConfigurationGuard, AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

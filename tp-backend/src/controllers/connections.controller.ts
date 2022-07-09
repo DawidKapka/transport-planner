@@ -1,4 +1,4 @@
-import {Body, Controller, Param, Post, Res} from "@nestjs/common";
+import {Body, Controller, Param, Post, Res, UseGuards} from "@nestjs/common";
 import {ConnectionRequests} from "../../../lib/models/api-requests/connection-requests.model";
 import {ConnectionRequestStation} from "../../../lib/models/connection/connection-request-station.model";
 import {ConnectionRequestCoordinate} from "../../../lib/models/connection/connection-request-coordinate.model";
@@ -8,13 +8,14 @@ import {Station} from "../../../lib/models/station/station.model";
 import {Connections} from "../../../lib/models/connection/connections.model";
 import {Connection} from "../../../lib/models/connection/connection.model";
 import {ConnectionsResponse} from "../../../lib/models/api-responses/connections-response.model";
+import {JwtAuthGuard} from "../guards/jwt-auth.guard";
 
 @Controller('connections')
 export class ConnectionsController {
 
     constructor(private httpService: HttpService) {}
 
-
+    @UseGuards(JwtAuthGuard)
     @Post('find')
     public async findAllConnections(@Body() req: ConnectionRequests, @Res() response) {
         const departureStations: {id: number; station: string}[] = await this.getDepartureStations(req.requests);
@@ -29,6 +30,7 @@ export class ConnectionsController {
         })
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post('earlier')
     public findEarlierConnection(@Body() req: ConnectionsResponse, @Res() response) {
         this.getConnection(req.connection.from.station.id, req.connection.to.station.id, req.connection.to.arrival.toString()).then(res => {
@@ -38,6 +40,7 @@ export class ConnectionsController {
         })
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post('later')
     public findLaterConnection(@Body() req: ConnectionsResponse, @Res() response) {
         const date = this.addHoursToDate(new Date(req.connection.to.arrivalTimestamp * 1000), 1);

@@ -1,0 +1,14 @@
+<div class="register-wrapper">
+  <div class="register" #registerDiv>
+    <h1 class="register__title">Register</h1>
+    <app-typeahead-input type="text" [error]="usernameError" placeholder="Username" [(text)]="username"></app-typeahead-input>
+    <app-typeahead-input type="text" [error]="emailError" placeholder="Email" [(text)]="email"></app-typeahead-input>
+    <app-typeahead-input type="password" [error]="passwordError" placeholder="Password" [(text)]="password"></app-typeahead-input>
+    <app-typeahead-input type="password" [error]="passwordRepeatError" placeholder="Repeat password" [(text)]="passwordRepeat"></app-typeahead-input>
+    <div class="errors" *ngIf="errors.length > 0">
+      <p class="error" *ngFor="let error of errors">{{error}}</p>
+    </div>
+    <app-typeahead-input type="button" [top-margin]="true" text="Register" size="medium" color="secondary" class="login__button" (on-click)="register()"></app-typeahead-input>
+    <p class="no-account">Already have an account? <a (click)="navigateTo('login')">Login</a></p>
+  </div>
+</div>

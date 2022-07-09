@@ -8,7 +8,7 @@ import {ButtonSize, ButtonColor} from '../../../types/types'
   encapsulation: ViewEncapsulation.None
 })
 export class TypeaheadInputComponent{
-  @Input() type: 'station-search' | 'date-time' | 'button' | 'text' | undefined;
+  @Input() type: 'station-search' | 'date-time' | 'button' | 'text' | 'password' | undefined;
   @Input() placeholder: string = '';
   @Input() text: string = '';
   @Input('station-value') stationText: string = '';
@@ -17,10 +17,13 @@ export class TypeaheadInputComponent{
   @Input() color: ButtonColor;
   @Input('small') isSmall: boolean = false;
   @Input('error') error: boolean = false;
+  @Input('top-margin') topMargin: boolean = false;
 
   @Output('on-click') click = new EventEmitter();
   @Output('station-valueChange') stationValueChange: EventEmitter<string> = new EventEmitter<string>();
   @Output('date-valueChange') dateValueChange: EventEmitter<string> = new EventEmitter<string>();
+  @Output('textChange') textValueChange: EventEmitter<string> = new EventEmitter<string>();
+
 
 
   emitStationChange(value: string) {
@@ -40,5 +43,9 @@ export class TypeaheadInputComponent{
     this.click.emit();
   }
 
+  emitTextChange(value: string) {
+    this.text = value;
+    this.textValueChange.emit(this.text);
+  }
 }
 

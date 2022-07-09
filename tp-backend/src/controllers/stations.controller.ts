@@ -1,11 +1,13 @@
-import {Controller, Get, Param, Res} from "@nestjs/common";
+import {Controller, Get, Param, Res, UseGuards} from "@nestjs/common";
 import {HttpService} from "@nestjs/axios";
+import {JwtAuthGuard} from "../guards/jwt-auth.guard";
 
 @Controller('stations')
 export class StationsController {
 
     constructor(private httpService: HttpService) {}
 
+    @UseGuards(JwtAuthGuard)
     @Get('find/:query')
     public getStations(@Param('query') query, @Res() response) {
         if (query) {

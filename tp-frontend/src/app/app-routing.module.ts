@@ -8,13 +8,18 @@ import {
   ConnectionExpandedComponent
 } from "./components/connections/connection/connection-expanded/connection-expanded.component";
 import {FinalizationComponent} from "./components/finalization/finalization.component";
+import {LoginComponent} from "./components/auth/login/login.component";
+import {AuthGuard} from "./guards/auth.guard";
+import {RegisterComponent} from "./components/auth/register/register.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'create', pathMatch: 'full'},
-  {path: 'create', component: ConnectionSearchComponent},
+  {path: 'create', component: ConnectionSearchComponent, canActivate: [AuthGuard]},
   {path: 'configure', component: TripConfigurationComponent, canActivate: [ConfigurationGuard]},
   {path: 'connection-detail', component: ConnectionExpandedComponent, canActivate: [ConfigurationGuard]},
-  {path: 'finalize', component: FinalizationComponent, canActivate: [FinalizationGuard]}
+  {path: 'finalize', component: FinalizationComponent, canActivate: [FinalizationGuard]},
+  {path: 'login', component: LoginComponent},
+  {path: 'register', component: RegisterComponent}
 ];
 
 @NgModule({

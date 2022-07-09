@@ -16,12 +16,48 @@
   }
 }
 
+@keyframes slide-in-from-bottom {
+  0% {
+    transform: translateY(100vh);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
 @keyframes slide-in-from-left {
   0% {
-    transform: translateX(-100%);
+    transform: translateX(-100vw);
   }
   100% {
     transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-from-right {
+  0% {
+    transform: translateX(100vw);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-out-to-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100vw);
+  }
+}
+
+@keyframes slide-out-to-right {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100vw);
   }
 }
 

@@ -9,6 +9,7 @@ export class TypeaheadInputTextComponent implements OnInit {
   @Input() placeholder: string = '';
   @Input('value') currentValue: string = '';
   @Input('error') error: boolean = false;
+  @Input('type') type: string = 'text';
   @Output('valueChange') valueChange: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() { }

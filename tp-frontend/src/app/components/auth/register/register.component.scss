@@ -1,0 +1,33 @@
+@import 'src/css/animations';
+@import 'src/css/colors';
+
+.register {
+  width: 75%;
+  margin-top: 32px;
+
+  &__title {
+    text-align: center;
+  }
+
+  .no-account {
+    text-align: center;
+  }
+}
+
+.register-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  animation: slide-in-from-right 500ms;
+}
+
+.leave {
+  animation: slide-out-to-right 500ms;
+  transform: translateX(100vw);
+}
+
+.error {
+  border: none;
+  color: $color-red;
+  text-align: center;
+}

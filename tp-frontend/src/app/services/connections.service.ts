@@ -1,8 +1,9 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ConnectionRequests} from "../../../../lib/models/api-requests/connection-requests.model";
 import {ConnectionRequestStation} from "../../../../lib/models/connection/connection-request-station.model";
 import {ConnectionsResponse} from "../../../../lib/models/api-responses/connections-response.model";
+import {AuthService} from "./auth.service";
 
 @Injectable({
   providedIn: "root"
@@ -11,11 +12,14 @@ export class ConnectionsService {
   private API_BASE_URL: string = 'http://localhost:3000';
   public expandedConnection: ConnectionsResponse;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private authService: AuthService) {
   }
 
   getStations(query: string) {
-    return this.http.get(`${this.API_BASE_URL}/stations/find/${query.replace('/', '%2F')}`)
+    console.log(this.authService.getAccessToken());
+    return this.http.get(
+      `${this.API_BASE_URL}/stations/find/${query.replace('/', '%2F')}`,
+      {headers: new HttpHeaders({'Authorization': `Bearer ${this.authService.getAccessToken()}`})})
   }
 
   findConnections(req: ConnectionRequests) {
