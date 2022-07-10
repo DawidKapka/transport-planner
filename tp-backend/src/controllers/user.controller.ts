@@ -30,7 +30,14 @@ export class UserController {
   }
 
   @Post("refresh")
-  async refreshToken(@Body() body) {
-    return this.dbService.refresh(body.refreshToken);
+  async refreshToken(@Body() body, @Res() res) {
+    const token = await this.dbService.refresh(body.refreshToken);
+    res.send({ accessToken: token });
+  }
+
+  @Post("logout")
+  async logout(@Body() body, @Res() res) {
+    await this.dbService.logout(body.refreshToken);
+    res.send(true);
   }
 }

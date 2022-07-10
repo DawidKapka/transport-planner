@@ -48,28 +48,39 @@ export class AuthService {
         } else {
           this.authenticated = false;
         }
+        setInterval(() => this.refresh(), 3540000);
         resolve(response)
       })
     })
   }
 
   public register(username: string, email: string, password: string) {
-    return new Promise<{auth: boolean; errors: string[], accessToken: string, refreshToken: string}>((resolve) => {
+    return new Promise<{auth: boolean; errors: string[]}>((resolve) => {
       const passwordHash = HashService.hashPassword(password);
       this.http.post(`${this.API_BASE_URL}/user/register`, {
         username: username,
         email: email,
         passwordHash: passwordHash
       }).forEach(res => {
-        const response = res as {auth: boolean; errors: string[], accessToken: string, refreshToken: string};
+        const response = res as {auth: boolean; errors: string[]};
         if (response.auth) {
           this.authenticated = true;
-          this.accessToken = response.accessToken;
-          this.refreshToken = response.refreshToken;
+          this.login(email, passwordHash).then(() => {
+            resolve(response)
+          });
         } else {
           this.authenticated = false;
+          resolve(response)
         }
-        resolve(response);
+
+      })
+    })
+  }
+
+  public refresh() {
+    return new Promise<string>((resolve) => {
+      this.http.post(`${this.API_BASE_URL}/user/refresh`, {refreshToken: this.refreshToken}).forEach((res) => {
+        this.accessToken = (res as {accessToken: string}).accessToken;
       })
     })
   }

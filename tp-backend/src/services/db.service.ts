@@ -1,17 +1,25 @@
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { User, UserDocument } from '../schemas/user.schema';
-import { Model } from 'mongoose';
-import { UserInfoDto } from '../dto/userInfo.dto';
-import { RefreshToken } from '../entities/refresh-token.entity';
-import { sign, verify } from 'jsonwebtoken';
-import * as credentials from '../../credentials.json';
+import { Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { User, UserDocument } from "../schemas/user.schema";
+import { Model } from "mongoose";
+import { UserInfoDto } from "../dto/userInfo.dto";
+import { RefreshTokenEntity } from "../entities/refresh-token.entity";
+import { sign, verify, JwtPayload } from "jsonwebtoken";
+import * as credentials from "../../credentials.json";
+import {
+  RefreshToken,
+  RefreshTokenDocument,
+} from "../schemas/refresh-token.schema";
 
 @Injectable()
 export class DbService {
-  private refreshTokens: RefreshToken[] = [];
+  private refreshTokens: RefreshTokenEntity[] = [];
 
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    @InjectModel(RefreshToken.name)
+    private refreshTokenModel: Model<RefreshTokenDocument>
+  ) {}
 
   getAllUsers() {
     return this.userModel.find();
@@ -19,6 +27,24 @@ export class DbService {
 
   async findUser(userId: string) {
     return this.userModel.findOne({ _id: userId });
+  }
+
+  saveToken(token: RefreshTokenEntity): Promise<void> {
+    return new Promise((resolve) => {
+      const createdToken = new this.refreshTokenModel(token);
+      createdToken.save().then(() => resolve());
+    });
+  }
+
+  getAllTokens() {
+    return this.refreshTokenModel.find();
+  }
+
+  removeToken(token: string) {
+    const refreshToken = verify(token, credentials.refreshSecret);
+    this.refreshTokenModel.deleteOne({ id: (refreshToken as RefreshTokenEntity).id }).then(() => {
+      this.refreshTokenModel.find().then(() => {})
+    });
   }
 
   createUser(user: UserInfoDto) {
@@ -82,56 +108,72 @@ export class DbService {
   private async getNewRefreshAndAccessToken(
     user: User & { _id: string }
   ): Promise<{ accessToken: string; refreshToken: string }> {
-    const refreshObject = new RefreshToken({
-      id:
-        this.refreshTokens.length === 0
-          ? 0
-          : this.refreshTokens[this.refreshTokens.length - 1].id + 1,
-      username: user.username,
-      userId: user._id,
-      email: user.email,
-    });
-    return {
-      refreshToken: refreshObject.sign(),
-      accessToken: sign(
-        {
-          userId: user._id,
-        },
-        credentials.accessSecret,
-        {
-          expiresIn: '1h',
-        },
-      ),
-    };
+    return new Promise<{ accessToken: string; refreshToken: string }>(
+      (resolve) => {
+        this.getAllTokens().then((refreshTokens) => {
+          const refreshObject = new RefreshTokenEntity({
+            id:
+              refreshTokens.length === 0
+                ? 0
+                : refreshTokens[refreshTokens.length - 1].id + 1,
+            username: user.username,
+            userId: user._id,
+            email: user.email,
+          });
+          this.saveToken(refreshObject);
+          resolve({
+            refreshToken: refreshObject.sign(),
+            accessToken: sign(
+              {
+                userId: user._id,
+              },
+              credentials.accessSecret,
+              {
+                expiresIn: "1h",
+              }
+            ),
+          });
+        });
+      }
+    );
   }
 
   public async refresh(refreshStr: string): Promise<string | undefined> {
-    const refreshToken = await this.retrieveRefreshToken(refreshStr);
-    if (!refreshStr) {
-      return undefined;
-    }
-    const user = await this.findUser(refreshToken.userId);
-    if (!user) {
-      return undefined;
-    }
-    const accessToken = { userId: refreshToken.userId };
-    return sign(accessToken, credentials.accessSecret, { expiresIn: '1h' });
+    return new Promise<string | undefined>((resolve) => {
+      this.retrieveRefreshToken(refreshStr).then((token) => {
+        if (!refreshStr) {
+          resolve(undefined);
+        }
+        this.findUser((token as any)._doc.userId).then((user) => {
+          if (!user) {
+            resolve(undefined);
+          }
+          const accessToken = { userId: (token as any)._doc.userId };
+          resolve(
+            sign(accessToken, credentials.accessSecret, { expiresIn: "1h" })
+          );
+        });
+      });
+    });
   }
 
   private retrieveRefreshToken(
-    refreshStr: string,
-  ): Promise<RefreshToken | undefined> {
-    try {
-      const decoded = verify(refreshStr, credentials.refreshSecret);
-      if (typeof decoded === 'string') {
-        return undefined;
+    refreshStr: string
+  ): Promise<RefreshTokenEntity | undefined> {
+    return new Promise<RefreshTokenEntity | undefined>((resolve) => {
+      try {
+        const decoded = verify(refreshStr, credentials.refreshSecret);
+        if (typeof decoded === "string") {
+          resolve(undefined);
+        }
+        this.getAllTokens().then((refreshTokens) => {
+          const token = refreshTokens.find((token) => token.id === (decoded as JwtPayload).id);
+          resolve(new RefreshTokenEntity(token));
+        });
+      } catch (e) {
+        resolve(undefined);
       }
-      return Promise.resolve(
-        this.refreshTokens.find((token) => token.id === decoded.id),
-      );
-    } catch (e) {
-      return undefined;
-    }
+    });
   }
 
   async logout(refreshStr): Promise<void> {
@@ -139,9 +181,6 @@ export class DbService {
     if (!refreshToken) {
       return;
     }
-
-    this.refreshTokens = this.refreshTokens.filter(
-      (token) => token.id !== refreshToken.id,
-    );
+    this.removeToken(refreshStr);
   }
 }

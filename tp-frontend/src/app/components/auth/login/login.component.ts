@@ -32,6 +32,7 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    this.errors = [];
     if (this.validateFields()) {
       this.authService.login(this.email, this.password).then((res) => {
         if (!res.auth) {

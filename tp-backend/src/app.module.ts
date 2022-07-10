@@ -12,6 +12,7 @@ import { ConfigModule } from '@nestjs/config';
 import * as credentials from '../credentials.json';
 import {JwtStrategy} from "./strategies/jwt.strategy";
 import {JwtAuthGuard} from "./guards/jwt-auth.guard";
+import {RefreshTokenSchema} from "./schemas/refresh-token.schema";
 
 @Module({
   imports: [
@@ -26,6 +27,11 @@ import {JwtAuthGuard} from "./guards/jwt-auth.guard";
           schema: UserSchema,
           collection: 'users',
         },
+        {
+          name: 'RefreshToken',
+          schema: RefreshTokenSchema,
+          collection: 'refreshTokens'
+        }
       ],
       'transport-planner',
     ),

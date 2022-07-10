@@ -24,14 +24,17 @@ export class ConnectionsService {
 
   findConnections(req: ConnectionRequests) {
     req.requests.forEach(request => (request as ConnectionRequestStation).stationName = (request as ConnectionRequestStation).stationName.replace(' ', '%20'));
-    return this.http.post(`${this.API_BASE_URL}/connections/find`, req);
+    return this.http.post(`${this.API_BASE_URL}/connections/find`, req,
+      {headers: new HttpHeaders({'Authorization': `Bearer ${this.authService.getAccessToken()}`})});
   }
 
   findEarlierConnection(connection: ConnectionsResponse) {
-    return this.http.post(`${this.API_BASE_URL}/connections/earlier`, connection)
+    return this.http.post(`${this.API_BASE_URL}/connections/earlier`, connection,
+      {headers: new HttpHeaders({'Authorization': `Bearer ${this.authService.getAccessToken()}`})})
   }
 
   findLaterConnection(connection: ConnectionsResponse) {
-    return this.http.post(`${this.API_BASE_URL}/connections/later`, connection);
+    return this.http.post(`${this.API_BASE_URL}/connections/later`, connection,
+      {headers: new HttpHeaders({'Authorization': `Bearer ${this.authService.getAccessToken()}`})});
   }
 }
