@@ -2,6 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Router} from "@angular/router";
 import {AuthService} from "../../../services/auth.service";
 import {ValidationService} from "../../../services/static/validation.service";
+import {StorageService} from "../../../services/storage.service";
 
 @Component({
   selector: 'app-login',
@@ -16,10 +17,20 @@ export class LoginComponent implements OnInit {
   password: string = '';
   passwordError: boolean = false;
   errors: string[] = [];
+  staySignedIn: boolean = false;
 
-  constructor(private router: Router, private authService: AuthService) { }
+  constructor(private router: Router, private authService: AuthService, private storageService: StorageService) { }
 
   ngOnInit(): void {
+    this.storageService.getRefreshToken().then(token => {
+      if (token) {
+        this.authService.setRefreshToken(token);
+        this.authService.refresh().then(() => {
+          this.authService.setAuthenticated(true);
+          this.router.navigate(['/create']);
+        })
+      }
+    })
   }
 
   navigateToRegister() {
@@ -38,6 +49,9 @@ export class LoginComponent implements OnInit {
         if (!res.auth) {
           res.errors.forEach(error => this.errors.push(error));
         } else {
+          if (this.staySignedIn) {
+            this.storageService.saveRefreshToken(this.authService.getRefreshToken());
+          }
           this.router.navigate(['create'])
         }
       });

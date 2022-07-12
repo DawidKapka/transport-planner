@@ -15,7 +15,6 @@ export class ConnectionExpandedComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private connectionsService: ConnectionsService) {
     this.connection = this.connectionsService.expandedConnection;
-    console.log(this.connection);
   }
 
   ngOnInit(): void {

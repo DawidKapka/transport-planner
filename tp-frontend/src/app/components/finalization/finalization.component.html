@@ -6,4 +6,10 @@
     </div>
   </div>
   <app-trip-map></app-trip-map>
+  <div class="url-to-copy">
+    <div class="url-wrapper" #link (click)="copyLinkToClipboard()">
+      <p class="url">{{getTripUrl()}}</p>
+    </div>
+    <app-typeahead-input type="button" [text]="copyText" color="secondary" [top-margin]="true" (on-click)="copyLinkToClipboard()"></app-typeahead-input>
+  </div>
 </div>

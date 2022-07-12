@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
-import {ButtonSize, ButtonColor} from '../../../types/types'
+import {ButtonSize, ButtonColor, ButtonType} from '../../../types/types'
 
 @Component({
   selector: 'app-typeahead-input',
@@ -8,7 +8,7 @@ import {ButtonSize, ButtonColor} from '../../../types/types'
   encapsulation: ViewEncapsulation.None
 })
 export class TypeaheadInputComponent{
-  @Input() type: 'station-search' | 'date-time' | 'button' | 'text' | 'password' | undefined;
+  @Input() type: ButtonType
   @Input() placeholder: string = '';
   @Input() text: string = '';
   @Input('station-value') stationText: string = '';
@@ -18,11 +18,13 @@ export class TypeaheadInputComponent{
   @Input('small') isSmall: boolean = false;
   @Input('error') error: boolean = false;
   @Input('top-margin') topMargin: boolean = false;
+  @Input('selected') checkboxSelected: boolean = false;
 
   @Output('on-click') click = new EventEmitter();
   @Output('station-valueChange') stationValueChange: EventEmitter<string> = new EventEmitter<string>();
   @Output('date-valueChange') dateValueChange: EventEmitter<string> = new EventEmitter<string>();
   @Output('textChange') textValueChange: EventEmitter<string> = new EventEmitter<string>();
+  @Output('selectedChange') selection: EventEmitter<boolean> = new EventEmitter<boolean>();
 
 
 
@@ -46,6 +48,10 @@ export class TypeaheadInputComponent{
   emitTextChange(value: string) {
     this.text = value;
     this.textValueChange.emit(this.text);
+  }
+
+  emitSelectionChange(event: boolean) {
+    this.selection.emit(event)
   }
 }
 

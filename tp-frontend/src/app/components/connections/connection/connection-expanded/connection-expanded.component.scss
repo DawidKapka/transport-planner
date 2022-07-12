@@ -1,4 +1,5 @@
 @import 'src/css/colors.scss';
+@import 'src/css/animations';
 
 .connection-expanded {
   display: flex;
@@ -14,6 +15,8 @@
   padding: 20px;
   height: 140px;
   border-bottom: 1px solid $color-black-20;
+  animation: slide-in-from-top 500ms;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.25);
 
   &__time {
     width: 20%;
@@ -50,6 +53,7 @@
 
     &__arrow {
       width: 20%;
+      margin-top: 8px;
 
       &__inner {
         width: 50%;

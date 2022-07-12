@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {TripService} from "../../services/trip.service";
 import * as uuid from 'uuid';
 import {HttpClient} from "@angular/common/http";
+import { environment } from "../../../environments/environment";
+import {Trip} from "@lib/models/trip/trip.model";
 
 
 @Component({
@@ -10,25 +12,34 @@ import {HttpClient} from "@angular/common/http";
   styleUrls: ['./finalization.component.scss']
 })
 export class FinalizationComponent implements OnInit {
+  @ViewChild('link') private link: ElementRef;
+  public copyText: string = 'Copy Link'
 
-  constructor(private tripService: TripService, private http: HttpClient) {
+  constructor(private tripService: TripService) {
     this.createTripId();
-    this.getQrCode();
   }
 
   ngOnInit(): void {
   }
 
   private createTripId() {
-    this.tripService.setTripId(uuid.v4());
-    console.log(this.tripService.getTripId());
+    if (!this.tripService.getTripId()) {
+      this.tripService.setTripId(uuid.v4());
+    }
+    this.tripService.saveTrip()
   }
 
-  public getQrCode() {
-    console.log(`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${this.tripService.getTripId()}`)
-    this.http.get(`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${this.tripService.getTripId()}`).forEach(res => {
-      console.log(res);
-    })
+  getTripUrl() {
+    return `${environment.appUrl}/trip/${this.tripService.getTripId()}`;
   }
 
+  copyLinkToClipboard() {
+    (this.link.nativeElement as HTMLElement).classList.add('copied')
+    this.copyText = 'Copied!'
+    setTimeout(() => {
+      (this.link.nativeElement as HTMLElement).classList.remove('copied');
+      this.copyText = 'Copy Link';
+    }, 2000);
+    navigator.clipboard.writeText(this.getTripUrl())
+  }
 }

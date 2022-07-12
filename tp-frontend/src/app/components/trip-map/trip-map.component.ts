@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {TripService} from "../../services/trip.service";
-import {Trip} from "../../models/trip.model";
+import {Trip} from "@lib/models/trip/trip.model";
 import {default as styles} from './mapConfig.json';
 import MapTypeStyle = google.maps.MapTypeStyle;
 
@@ -17,13 +17,13 @@ export class TripMapComponent implements OnInit {
   public lng = 0;
 
   constructor(private tripService: TripService) {
-    this.trip = tripService.getTrip();
-    this.lat = this.trip.arrivalStation.coordinate.x;
-    this.lng = this.trip.arrivalStation.coordinate.y;
-    this.stationMarkers = this.createStationMarkers();
   }
 
   ngOnInit(): void {
+    this.trip = this.tripService.getTrip();
+    this.lat = this.trip.arrivalStation.coordinate.x;
+    this.lng = this.trip.arrivalStation.coordinate.y;
+    this.stationMarkers = this.createStationMarkers();
   }
 
   private createStationMarkers(): {lat: number, lng: number; label: string}[] {

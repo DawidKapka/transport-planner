@@ -1,0 +1,10 @@
+<div class="wrapper" *ngIf="trip">
+  <app-trip-map></app-trip-map>
+  <div class="information">
+    <div class="section">
+      <h3 class="heading">Destination</h3>
+      <app-splitter size="small"></app-splitter>
+      <p class="subheading">{{trip.arrivalStation.name}}</p>
+    </div>
+  </div>
+</div>

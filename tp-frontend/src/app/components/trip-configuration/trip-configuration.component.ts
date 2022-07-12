@@ -4,7 +4,7 @@ import {Participant} from "../../models/participant.model";
 import {ConnectionsResponse} from "../../../../../lib/models/api-responses/connections-response.model";
 import {Station} from "../../../../../lib/models/station/station.model";
 import {Router} from "@angular/router";
-import {Trip} from "../../models/trip.model";
+import {Trip} from "@lib/models/trip/trip.model";
 import {ConnectionsService} from "../../services/connections.service";
 
 @Component({

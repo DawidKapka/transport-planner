@@ -17,3 +17,28 @@
     margin: 0;
   }
 }
+
+.url-to-copy {
+  margin: 16px 16px 32px 16px;
+
+  .url-wrapper {
+    border: 1px solid $color-black-40;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+    overflow: hidden;
+    display: inline-block;;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    border-radius: 4px;
+
+    .url {
+      margin: 8px;
+      font-size: 16px;
+    }
+  }
+
+  .copied {
+    margin: -1px 0 0 -1px;
+    border: 2px solid $color-black-60;
+  }
+}

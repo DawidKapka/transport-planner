@@ -1,0 +1,46 @@
+@import 'src/css/colors';
+
+.typeahead-container {
+  padding: 16px;
+  display: flex;
+  justify-content: space-around;
+
+  .typeahead-input-checkbox {
+    height: 24px;
+    width: 24px;
+    border-radius: 4px;
+    margin-right: 16px;
+    appearance: none;
+    outline: 1px solid $color-black-40;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+
+    &::before {
+      width: 24px;
+      height: 24px;
+    }
+
+    &:checked {
+      background-color: $color-purple-40;
+
+      &::before {
+        width: 24px;
+        height: 24px;
+        content: 'X';
+        color: $color-white-100;
+        position: absolute;
+        margin-left: 7px;
+        margin-top: 2px;
+
+      }
+    }
+  }
+
+  .typeahead-input-label {
+    font-size: 16px;
+    margin: 4px 0 0 0;
+  }
+
+  .checkbox-wrapper {
+    display: flex;
+  }
+}

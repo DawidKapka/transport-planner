@@ -5,6 +5,7 @@ import {ConnectionsService} from "../../services/connections.service";
 import {ConnectionsResponse} from "../../../../../lib";
 import {TripService} from "../../services/trip.service";
 import {Router} from "@angular/router";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-connection-search',
@@ -19,7 +20,7 @@ export class ConnectionSearchComponent implements OnInit {
   public showSpinner: boolean = false;
   public destinationError: boolean = false;
 
-  constructor(private connectionService: ConnectionsService, private tripService: TripService, private router: Router) {
+  constructor(private connectionService: ConnectionsService, private tripService: TripService, private router: Router,) {
     const date = ConnectionSearchComponent.getCurrentDate();
     const dateFormatted = date.substring(0, 2) + ' - '
       + date.substring(3, 5) + ' - '
@@ -29,12 +30,35 @@ export class ConnectionSearchComponent implements OnInit {
     this.datePlaceholder = dateFormatted;
   }
 
+  private fillTextfields() {
+    const trip = this.tripService.getTrip();
+    this.participants = [];
+    this.station = trip.arrivalStation.name;
+    this.arrivalDate = ConnectionSearchComponent.formatArrivalDate(trip.arrivalTime.toISOString());
+    trip.connections.forEach((connection) => {
+      this.participants.push({
+        id: connection.participant.id,
+        name: connection.participant.name,
+        departureStation: connection.participant.departureStation,
+        nameError: connection.participant.nameError,
+        stationError: connection.participant.stationError
+      })
+    })
+  }
+
+  private static formatArrivalDate(date: string) {
+    return `${date.substring(8, 10)} - ${date.substring(5, 7)} - ${date.substring(0, 4)} : ${date.substring(11, 16)}`;
+  }
+
   private static getCurrentDate(): string {
     return new Date(Date.now()).toLocaleString('de-CH', {timeZone: 'europe/berlin', hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric'});
   }
 
   ngOnInit(): void {
     this.participants.push({id: 1, name: '', departureStation: '', nameError: false, stationError: false});
+    if (this.tripService.getTrip()) {
+      this.fillTextfields();
+    }
   }
 
   public incrementParticipants() {
